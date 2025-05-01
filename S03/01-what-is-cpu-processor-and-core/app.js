@@ -1,7 +1,1 @@
-let a = 3
-let b = 4
-
-function add(a, b) {
-return a + b;
-}
-// add(a, b);
+// no codes and notes It was just a simple explanation about CPU, PROCESSOR, & CORE that you can understand through chatgpt or other ai tools
