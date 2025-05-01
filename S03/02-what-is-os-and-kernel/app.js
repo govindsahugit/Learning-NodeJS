@@ -1,0 +1,1 @@
+// it was a simple explanation about OS and Kerner that you can understand through chatgpt and other ai tools.
