@@ -1,0 +1,31 @@
+Thread is worker of process.
+
+Spawning a Process: Spawning a process is when a parent process starts or triggers a child process.
+
+Thread ko ek process hi start karta hai and thread ko ek process hi use karta hai.
+
+Concurrency: when you have 1 core CPU and your process have 3 threads each threads run in intence of time one by one, means when we have multiple threads in our process in achieved concurrency in our process.
+
+Parallelism: When we have multiple core CPU and your process also have multiple threads each threads take different core in CPU and in same intence instead of one by one.
+
+Here's a summary:
+
+Core: A physical processing unit in a CPU that executes instructions. Modern CPUs have multiple cores for parallel processing.    
+
+Thread: A sequence of instructions executed by the CPU, representing a logical flow of execution. Multiple threads can exist within a process and share its resources.    
+
+Process: A running program with its own memory space and resources, isolated from other processes.    
+
+Single-core vs. Multi-core: Single-core CPUs execute one task at a time, while multi-core CPUs enable parallel processing.    
+
+Thread Creation & Execution: Software applications create threads, and the OS schedules and assigns them to CPU cores. A single-core CPU can switch between threads using time-sharing, giving the illusion of simultaneous execution.    
+
+Hyper-threading: Improves efficiency but doesn't provide true parallel execution, which requires multiple physical cores.    
+
+Thread Lifecycle: After execution, a thread moves to a terminated state, is cleaned up, removed from the scheduler, and its memory is freed.    
+
+Zombie Threads: If threads aren't properly cleaned up, they can become zombie threads, consuming resources. Detached threads are automatically cleaned up by the OS.    
+
+Concurrency: Multiple tasks making progress at the same time, but not necessarily simultaneously. The CPU switches between tasks rapidly.    
+
+Parallelism: Tasks running at the same time, requiring multiple CPU cores or processors.
