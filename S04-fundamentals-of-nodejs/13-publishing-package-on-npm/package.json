@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "dependencies": {
+    "govindlearningnpm": "^1.0.0"
+  }
+}
