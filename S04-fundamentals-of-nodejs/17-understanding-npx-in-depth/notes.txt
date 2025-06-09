@@ -1,0 +1,18 @@
+How npx works? Basically npx searches for file and then executes it, and npx searches for file in following 5 steps:
+
+Step 1:
+    Searches in package.json file
+
+Step 2:
+    Searches in node_modules/.bin/filename
+
+Step 3: 
+    Searches in system folder where all global installed packages are stored.
+
+Step 4:
+    Searches in npm caches folder
+
+Step 5:
+    If these all searching processes are failed then it start searching directly in npm.js site and if it finds file it asks for install it and if we agree to install it installs in npm cache 
+
+If any of these searches success it wouldn't go for further steps.
