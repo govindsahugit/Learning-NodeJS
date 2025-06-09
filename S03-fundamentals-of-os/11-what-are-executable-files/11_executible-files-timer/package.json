@@ -1,6 +1,7 @@
 {
-  "name": "timer",
+  "name": "myexe",
   "bin": "app.js",
+  "type": "module",
   "scripts": {
     "build": "pkg -t node16-win-x64 ."
   },
