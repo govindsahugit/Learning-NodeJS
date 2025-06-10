@@ -1,0 +1,1 @@
+we explore npm and npx files and customize them to know how it works and what they do behind the scene
