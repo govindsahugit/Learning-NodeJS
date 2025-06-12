@@ -1,0 +1,13 @@
+Octal Number System
+	In Octal number system is the combinations of (0,1,2,3,4,5,6,7)
+	These are eight digits that's why it is called as octal number system.
+	 
+	In ES6, We cannot direct write the octal numbers since it's deprecated.
+	Instead we can use the modern syntax of 0o12. 
+
+	In parseInt() we can also pass an extra argument for telling which number system we are using.
+	In .toString() if we pass the power of any number system it will convert it to that, for Ex -> num.toString(8)
+
+	In today's time we don't use octal number system that much, but it is used for operation in Linux behind the scenes.
+
+	It is also called Base8 Number system. (Cuz it has 8 digits to represent)
