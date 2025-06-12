@@ -1,0 +1,10 @@
+Why we use decimal number system only ?
+	
+	We adopted it because we have 10 fingers in our hand and toes. (Base10)
+	The concept of place value was loved by people.
+	ENIAC Computer used decimal number system instead of binary number system.
+	
+	Why computers use Octal and Hexadecimal Number system ?
+		Because it comes as the power of 2(Binary Number System)
+		2^3 = Octal
+		2^4 = HexaDecimal
