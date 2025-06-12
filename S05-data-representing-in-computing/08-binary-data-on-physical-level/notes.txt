@@ -1,0 +1,21 @@
+Binary Data on Physical Level
+
+	How data is stored in our system in 0s and 1s
+	Data representation is divided into:
+		Data Storage and Data Transfer
+	
+	On physical level data is store in transistor using electron and protons.
+	There are multiple transistor to hold it.
+	The place where charge is we assume it as 1s and the place where charge is not we assume it as 0s
+	Similarly in HDD we have magnetic plates, where southpole(0s) and northpole(1s)
+	Full form of bits is BINARY DIGITS
+	
+
+	In Data transfer we use Electromagnetic waves (specially Radio waves)
+	In  this 0s and 1s can be represent by high-low amplitudes OR Frequency, depends on condition.
+	In wired connection, we use Fibre optic cables. In the cable lights is passed very fast. (Light means 1s, No light means 0s)
+	In case of copper wire, we cannot pass light, we use electricity (High voltage 1s, Low Voltage 0s)
+	
+	How our System Stores Images, Videos, other medias ?
+	Since on physical level our system only know how to store Binary digits via pules, magnetics poles, voltages, frequency, etc.
+	So this binary digits are encrypted in this format that is can convert into other media form. The way of interpreting them is different
