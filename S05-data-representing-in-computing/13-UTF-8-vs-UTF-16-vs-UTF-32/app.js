@@ -4,8 +4,11 @@ const bufferContent = await fs.readFile("text.txt");
 
 const bufferToString = (buffer) => {
   let str = "";
-  str += buffer.map((s) => s);
+  str += buffer.map((s) => {
+    console.log(s);
+    return s;
+  });
   return str;
 };
 
-bufferToString(bufferContent);
+console.log(bufferToString(bufferContent));
