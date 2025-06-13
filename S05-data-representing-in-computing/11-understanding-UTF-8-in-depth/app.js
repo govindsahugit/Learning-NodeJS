@@ -7,4 +7,4 @@ bufferContent.forEach((hex) => {
   binStr += hex.toString(2) + " ";
 });
 
-console.log(binStr);
+
