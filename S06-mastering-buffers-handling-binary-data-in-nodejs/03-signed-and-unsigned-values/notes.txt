@@ -1,0 +1,15 @@
+Signed and Unsigned Binary Numbers
+	
+	Till now we have seen only positive numbers.
+	
+	8 Bit Signed = negative (-128 to +127)
+	8 Bit Unsigned = Positive (0 to 255)
+
+	Signed Bits is determined by starting bit of byte.
+	If starting bit is 1. It will think it of as negative number.
+	and take 2's Compliment of whole byte.
+
+	Till the value of 127, it's 2's compliment will be same (Positive Only)
+	Because it's starting digit is 0 not 1.
+
+	This is important cuz when we will create our own buffer at that time we need to tell it whether it is signed or unsigned
