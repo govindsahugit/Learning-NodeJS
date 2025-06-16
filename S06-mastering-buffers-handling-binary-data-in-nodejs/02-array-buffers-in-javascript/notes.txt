@@ -1,0 +1,16 @@
+Array Buffers:
+    Array of Bytes
+    In Browser ArrayBuffer() is a constructor function.
+    So it need to call with new keyword.
+
+    It has some properties: 
+        byteLength
+        datached
+        maxByteLength
+        resizeable
+    
+    We can store maximum 1.99 GiB in it.
+
+    # We cannot directly update the array buffer.
+    # We use typedArray and Dataview for it.
+    # ArrayBuffer are Garbage collected in JS.
