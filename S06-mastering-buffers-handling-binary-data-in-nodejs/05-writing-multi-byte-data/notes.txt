@@ -8,4 +8,4 @@ Writing Multi Byte Data
 
 	.getInt16(index, ?Endian)
 
-	we also have methods for 32 Bits.
+	we also have methods for 64 Bits.
