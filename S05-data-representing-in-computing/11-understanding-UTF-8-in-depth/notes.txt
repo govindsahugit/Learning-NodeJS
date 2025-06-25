@@ -1,0 +1,22 @@
+UTF-8 Encoding
+
+	To see how data is converted and stored we can use some bash commands and extension.
+	COMMANDS:
+		xxd <filename> (give the UNICODE value)
+		xxd -b <filename> (give the BINARY content)
+		xxd -g 1 <filename> makes group of one byte
+		
+	HEX EDITOR Extension 	
+
+	Encoding works on 2 different times. 
+	1st when we save the file
+	2ns when we open the file
+
+	UTF-8 use variable byte system
+	till 007F in Unicode (127 in ASCII) it uses 7 bits only to store it.
+	
+	UTF-8 Rules
+		for 1 Bytes Character (0xxxxxxx) It can store 7 bits
+		for 2 Bytes Character (110xxxxx 10xxxxxx) It can store 11 bits
+		for 3 Bytes Character (1110xxxx 10xxxxxx 10xxxxxx) It can store 16 bits
+		for 4 Bytes Character (11110xxx 10xxxxxx 10xxxxxx 10xxxxxx) It can store 21 bits

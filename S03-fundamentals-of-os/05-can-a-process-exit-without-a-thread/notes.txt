@@ -1,0 +1,1 @@
+A Process can't exit without any thread, every Process contains minimum one Thread aleast as a default and this default Thread is called main Thread of Process.

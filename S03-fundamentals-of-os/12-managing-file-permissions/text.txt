@@ -1,0 +1,6 @@
+echo "Hello from text.txt"
+'stat -c "%A %a %n"'
+
+read -> r = 4
+write -> w = 2
+execute -> x = 1

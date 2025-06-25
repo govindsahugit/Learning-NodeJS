@@ -1,0 +1,1 @@
+// no codes and notes It was just a simple explanation about CPU, PROCESSOR, & CORE that you can understand through chatgpt or other ai tools

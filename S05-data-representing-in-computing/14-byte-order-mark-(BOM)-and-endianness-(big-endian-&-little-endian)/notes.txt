@@ -1,0 +1,29 @@
+BOM and Endianness
+
+	There are 2 different way in which data is stored in computers.
+	It is based on Least Significant and Most Significant bits.
+	Means Least significant bit will go on small index and vice versa.
+
+	But it can be different for different manufacturer and countries. Just like dates.
+
+	But when transferring data on networks if one user is using different way and other is using different so it will be confusing.
+	So to solve this problem we also share the encoding format with the request.
+	
+	The format loved by Humans is Big Endian (Most to least)
+	The format easy for computer is Little Endian (Least to Most)
+	
+	The name endian is taken from a  story of egg.
+
+	When sending data for telling the format we use 2 Bytes(Not exactly but 2 Unicode Characters -> U+FEFF)
+	And it is called as Byte Order Mark (BOM)
+
+	BOM for Little Endian -> U+FFFE
+	BOM for Big Endian -> U+FEFF
+
+	NodeJS only Supports LE(Little Endian)
+
+	But in case of UTF-8, we can use BOM. but since it uses variable system and FFEF/FFFE are 3 Byte(16 Bits) Character.
+	so it make 3 variable( EF BB BF ) for storing the BOM.
+
+	We can check which endianness is our System using by os.endianness()
+	Commands -> for bash lscpu, for powershell [BitConverter]::IsLittleEndian

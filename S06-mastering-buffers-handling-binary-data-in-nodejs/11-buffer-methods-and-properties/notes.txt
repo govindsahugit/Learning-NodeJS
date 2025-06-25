@@ -1,0 +1,21 @@
+Buffer Methods and Properties
+	Buffer.from(content, ?Encoding)
+	BufferObject.toString(?encoding)
+	BufferObject.write(content, ?Encoding)
+	BufferObject.toJSON() -> Give binary Data
+	BufferObject.slice()
+	BufferObject.subarray()
+	BufferObject.copy(BufferObject2, ?targetIndex, ?startIndex, ?endIndex)
+	BufferObject.includes(content, ?index, ?encoding)
+	BufferObject.readInt8(?index)
+	BufferObject.readInt16LE(?index)
+	BufferObject.readInt16BE(?index)
+	etc.
+
+	Similar methods are available for write.
+
+	// Properties
+	BufferObject.buffer
+	BufferObject.byteLength
+	BufferObject.byteOffset
+	BufferObject.length

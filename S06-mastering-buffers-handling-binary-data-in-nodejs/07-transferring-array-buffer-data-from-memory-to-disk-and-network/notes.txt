@@ -1,0 +1,1 @@
+Nothing to note here, We just understood how arrayBuffer data is transferred by playing with binary data. Also some arguments error.

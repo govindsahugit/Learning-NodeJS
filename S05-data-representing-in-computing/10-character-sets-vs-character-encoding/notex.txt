@@ -1,0 +1,14 @@
+Character Set Vs Character Encoding
+	
+	In Character Set, each character is assigned a code to represent it.
+	The most popular character set are:
+		
+	ASCII (American Standard code for Information Interchange) -> 128 Characters
+		2^7 = 128 (It will be represented in 7 bits)	
+	
+	Unicode is capable of encoding 1.1 Million characters
+	
+
+	In Character Encoding, every set has it's own way of encoding.
+	In case of ASCII, It's encoding is ASCII only. It uses 7 bits.
+	In case of UTF-8, it uses 8 Bits

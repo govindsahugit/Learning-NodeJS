@@ -1,0 +1,1 @@
+I created a cli package when I run this package using npx it and filename or filepath it counts every words present in file 

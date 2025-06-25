@@ -1,0 +1,21 @@
+Digital Data Units
+	As we cannot measure the minimum distance/length of god's creature.
+	But we can measure the minimum unit of data which we have created(Humans)
+	Smallest unit of data is 1 Bit
+	4 bits = 1 Nibble (0.5 Byte)
+	8 bits = 1 Byte 	
+	we measure units by two form :
+		SI and IEC
+
+	SI (International System of Units): Based on Powers of 10
+	| Kilobyte(KB)           | 1 KB = 1,000 Bytes                | 10³ = 1,000 Bytes             |
+	| Megabyte(MB)           | 1 MB = 1,000 KB                   | 10⁶ = 1,000,000 Bytes         |
+	| Gigabyte(GB)           | 1 GB = 1,000 MB                   | 10⁹ = 1,000,000,000 Bytes     |
+	| Terabyte(TB)           | 1 TB = 1,000 GB                   | 10¹² = 1,000,000,000,000 Bytes|
+
+	IEC (International Electrotechnical Commission): Based on Powers of 2
+
+	| Kibibyte(KiB)          | 1 KiB = 1,024 Bytes               | 2¹⁰ = 1,024 Bytes                 |
+	| Mebibyte(MiB)          | 1 MiB = 1,024 KiB                 | 2²⁰ = 1,048,576 Bytes             |
+	| Gibibyte(GiB)          | 1 GiB = 1,024 MiB                 | 2³⁰ = 1,073,741,824 Bytes         |
+	| Tebibyte(TiB)          | 1 TiB = 1,024 GiB                 | 2⁴⁰ = 1,099,511,627,776 Bytes     |

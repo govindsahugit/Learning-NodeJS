@@ -1,0 +1,22 @@
+CommonJS modules -
+// Sychronous file loading
+// cjs imports are not hoisted
+// top level await is not allowed
+// only one value can be exported in cjs
+// file extension optional
+// we can give full file path and we can load any file using cjs
+// it is convention to give cjs extension in the file extension
+// Here it is optional to set '"type": "commonjs"' to use commonjs module.
+// this keyword points to module.exports in cjs.
+
+
+And ES6 modules -
+// Asychronous file loading
+// mjs imports are hoisted
+// top level await is allowed
+// multiple values can be exported in mjs
+// file extension mandatory
+// we can not load any file except .js and .mjs 
+// it is convention to give mjs extension in the file extension
+// Here we need to set '"type": "module"' in package.json file to use ES6 module.
+// this keyword is undefined in mjs.

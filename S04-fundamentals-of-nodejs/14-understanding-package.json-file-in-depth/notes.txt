@@ -1,0 +1,6 @@
+In this video I have learned -
+// about 'dependencies' and 'devdependencies' and also about their differences.
+// depth knowledge about package.json and package-lock.json
+// version in dependencies and devdependencies
+// how package.json manages version of packages
+// script property in package.josn file

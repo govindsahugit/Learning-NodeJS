@@ -1,0 +1,8 @@
+There are two types of file path -
+
+1. Abosolute path
+eg: D:\Web Development\BACKEND DEVELOPMENT\Backend with Procodrr\S03\10-understanding-the-path-systemwindow-vs-linux\notes.txt
+
+2. Relative path
+notes.txt
+or src/filestosee.file

@@ -1,0 +1,11 @@
+Writing Multi Byte Data
+		
+	.setInt8() has limitation to 255 (8 Bits only)
+	.setInt16() can store larger numbers (16 bits)
+
+	we can also pass 3rd argument of Endian, by default it is LE
+	(true for BE) Only comes with multi-byte (16 and 32)
+
+	.getInt16(index, ?Endian)
+
+	we also have methods for 64 Bits.

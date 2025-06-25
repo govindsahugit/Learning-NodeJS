@@ -1,0 +1,1 @@
+A Process can create environment variables to use according to their requirements and environment variables is accesseable to their child process.
