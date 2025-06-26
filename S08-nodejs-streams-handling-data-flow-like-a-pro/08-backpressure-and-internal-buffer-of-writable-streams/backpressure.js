@@ -19,7 +19,6 @@ const readStream = fs.createReadStream(
 readStream.on("data", (chunk) => {
   //   fs.appendFileSync("video.mp4", chunk); // time: 6.2s, memory: 40MB, CPU: 6%
   //   writeStream.write(chunk); // time: 1.8s, memory: 500MB, CPU: 6%
-
   //   After handling backpressure
   const isEmpty = writeStream.write(chunk); // time: 1.6s, memory: 40MB, CPU: 7%
   if (!isEmpty) readStream.pause();
