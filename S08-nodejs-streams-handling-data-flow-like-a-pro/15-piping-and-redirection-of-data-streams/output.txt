@@ -1,0 +1,2 @@
+Hi from script.js 1
+Hi from script.js 2
