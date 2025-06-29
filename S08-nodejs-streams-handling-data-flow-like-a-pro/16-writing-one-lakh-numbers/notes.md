@@ -1,0 +1,1 @@
+appendSync took 1 minute, Stream took 1 second. 60 Times faster
