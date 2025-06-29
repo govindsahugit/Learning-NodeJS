@@ -1,0 +1,28 @@
+Data Streams (IMP)
+
+    When a process start it has 3 types of dta streams.
+    stdin -> mostly read the data.
+    stdout -> mostly write the data.
+    stderr -> mostly write the data.
+
+    All are duplex streams.
+
+    We get all this streams in process object.
+
+
+    // ReadAble Stream
+    process.stdin
+
+    // Writable Stream
+    process.stdout
+    process.stderr
+
+    console.log() behind the scenes use stdout stream.
+    stderr is similar to stdout and is only used for showing the errors and warnings.
+
+    File Descriptor(fd):
+        stdin  -> 0
+        stdout -> 1
+        stderr -> 2
+
+Reply
