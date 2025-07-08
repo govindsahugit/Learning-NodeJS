@@ -1,0 +1,1 @@
+He did on multiple servers in their system that was globally accessable like ReactJS app server, NodeJS server and more.
