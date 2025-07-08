@@ -14,5 +14,6 @@ const { buffer: writtenBuffer, bytesWritten } = await fileHandle.write(
 console.log(writtenBuffer, bytesWritten);
 
 console.log(fileHandle.fd); // output > 0
+// await fileHandle.close();
 fileHandle.close();
 console.log(fileHandle.fd); // output < 0
