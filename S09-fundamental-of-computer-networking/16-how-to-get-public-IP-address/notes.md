@@ -1,0 +1,1 @@
+We contacted customer support to request a public (static) IP address.
