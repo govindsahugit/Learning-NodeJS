@@ -1,0 +1,1 @@
+We learned how to manage bills and costs in aws.
