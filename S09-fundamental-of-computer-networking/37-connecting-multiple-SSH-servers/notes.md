@@ -1,0 +1,1 @@
+we created config file in our .ssh directory to create shortcut to access ssh server directory writing a ip address or password.
