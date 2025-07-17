@@ -1,0 +1,1 @@
+By using 'scp' command in terminal we transferred files from one system to another system
