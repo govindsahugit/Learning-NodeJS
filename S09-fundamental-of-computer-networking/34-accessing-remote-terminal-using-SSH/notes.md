@@ -1,0 +1,1 @@
+We connected two terminal as client and server using SSH.
