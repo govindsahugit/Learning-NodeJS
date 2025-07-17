@@ -1,0 +1,1 @@
+We created new account in Amazon Web Service (AWS).
