@@ -1,0 +1,1 @@
+TCP servers can handle multiple clients simultaneously using net.createServer(). Each connection gets a unique socket object.
