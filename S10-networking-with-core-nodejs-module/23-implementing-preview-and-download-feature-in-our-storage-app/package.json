@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "dependencies": {
+    "mime-types": "^3.0.1"
+  }
+}
