@@ -1,0 +1,1 @@
+We haven't something special just saperated client and server in different directories
