@@ -1,0 +1,1 @@
+Behind the Scenes ExpressJS use http module to handle all methods and start the server.
