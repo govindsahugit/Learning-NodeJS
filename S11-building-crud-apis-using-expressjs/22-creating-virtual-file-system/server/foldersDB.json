@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "test",
+    "parentDir": null,
+    "content": {
+      "files": [10],
+      "directories": [2, 3]
+    }
+  },
+  {
+    "id": 2,
+    "name": "images",
+    "parentDir": 1,
+    "content": {
+      "files": [10],
+      "directories": []
+    }
+  }
+]
