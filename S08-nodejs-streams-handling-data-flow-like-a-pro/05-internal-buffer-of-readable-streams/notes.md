@@ -1,17 +1,22 @@
-Internal Buffer of Readable Stream
+## Internal Buffer of Readable Streams
 
-    The chunks that we recieve till the stream is ended is called as internal buffer.
+The internal buffer of a readable stream temporarily stores the data chunks received until the stream ends.
 
-    Every time this internal buffer changes with every chunk.
-    Internal Buffer size is equivalent to highWaterMark.
+- The internal buffer updates with each incoming chunk.
+- Its size is determined by the `highWaterMark` property.
 
-    stream.on("readable", () => {
-        console.log(stream.readableLength);
-        console.log(stream.read());
-        console.log(stream.readableLength);
-    });
+Example:
 
-    Here we are listening for readable event, when it fires.
-    It will show how much bytes of data is coming in chunk
-    `strem.read()` will read the data.
-    It will show remaining bytes of data in chunk.
+```js
+stream.on("readable", () => {
+    console.log(stream.readableLength); // Bytes available in the buffer
+    console.log(stream.read());         // Reads data from the buffer
+    console.log(stream.readableLength); // Remaining bytes after reading
+});
+```
+
+In this example:
+- The `readable` event is emitted when data is available to read.
+- `stream.readableLength` shows the number of bytes currently buffered.
+- `stream.read()` reads data from the buffer.
+- After reading, `stream.readableLength` reflects the remaining bytes.

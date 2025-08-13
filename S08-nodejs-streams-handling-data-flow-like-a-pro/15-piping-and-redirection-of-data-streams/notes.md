@@ -1,43 +1,41 @@
-Piping of Data Streams
+## Piping of Data Streams
 
-    Piping streams from terminal will only work in linux.
-    So we should WSL.
+- Piping streams from the terminal works natively on Linux.
+- On Windows, use WSL for piping support.
+- **Piping Command:**  
+    ```sh
+    echo hii | node index.js
+    ```
+    The stdout stream of the terminal is piped to Node's stdin stream.
+- Another example:  
+    ```sh
+    node script.js | node index.js
+    ```
+    Here, the stdout stream of `script.js` is piped to the stdin stream of `index.js`.
+- The pipe operator is `|`.  
+    It only pipes the stdout stream to the stdin stream.
 
-    Piping Command: echo hii | node index.js
+---
 
-    The stdout stream of terminal is piped to node stdin stream.
+## Redirection of Data Streams
 
-    Similarly, this example:
-     node script.js | node index.js
-
-    The stdout stream of script.js is piped to index.js stdin stream.
-
-    pipe operator => |
-
-    It only pipes stdout stream to stdin stream
-
-Redirection of Data Streams
-
-    Redirection work's with extra file, means the output of a process is stored in a file.
-
-    Command:
-        node script.js > command.txt
-
-    Here the stdout stream of script.js is stored in command.txt
-
-    Similarly,
-        node script.js 2> command.txt
-    now stderr stream of script.js is stored in command.txt
-
-    2 is indicating the filedescriptor.
-
-    if we want to write both we will use:
-        node script.js > command.txt 2>> command.txt
-    
-    Now, 
-
-    If we want to read the data of file, we can use
-    commands:
-        node index.js < command.txt
-
-    It will read the data from command.txt in streams and pass it to stdin of index.js
+- Redirection works by sending the output of a process to a file.
+- **Command:**  
+    ```sh
+    node script.js > command.txt
+    ```
+    The stdout stream of `script.js` is stored in `command.txt`.
+- To redirect the stderr stream:  
+    ```sh
+    node script.js 2> command.txt
+    ```
+    Here, `2` refers to the file descriptor for stderr.
+- To write both stdout and stderr to a file:  
+    ```sh
+    node script.js > command.txt 2>> command.txt
+    ```
+- To read data from a file and pass it to a process:  
+    ```sh
+    node index.js < command.txt
+    ```
+    This reads data from `command.txt` as a stream and passes it to the stdin of `index.js`.

@@ -1,23 +1,31 @@
-File Descriptor ?
+## File Descriptor
 
-    File Descriptor is a non negative integer.
-    (0 or positive)
+A **file descriptor** is a non-negative integer (0 or positive) that acts as a reference to an open file in the operating system.
 
-    It represented as address of open file.
+- It serves as an address or handle for accessing the open file.
 
-    // Callback
-    fs.open(path, (err, fd) => {
-        console.log(fd);
-    });
+### Example Usage
 
-    // Synchronous
-    const fd1 = openSync(path);
+**Asynchronous:**
+```js
+fs.open(path, (err, fd) => {
+    console.log(fd); // fd is the file descriptor
+});
+```
 
-    This will show the file Descriptor of opened file.
+**Synchronous:**
+```js
+const fd1 = fs.openSync(path);
+console.log(fd1); // fd1 is the file descriptor
+```
 
-    It will always start from 3, because:
-        0 stdin
-        1 stdout
-        2 stderr
+These methods return the file descriptor of the opened file.
 
-Reply
+### Standard File Descriptors
+
+File descriptors start from 3 because the first three are reserved:
+
+- `0` — Standard Input (`stdin`)
+- `1` — Standard Output (`stdout`)
+- `2` — Standard Error (`stderr`)
+- `3` and above — User-opened files

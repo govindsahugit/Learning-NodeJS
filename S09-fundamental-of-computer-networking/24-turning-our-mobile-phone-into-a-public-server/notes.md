@@ -1,1 +1,1 @@
-using termux application in mobile phone, we can run a nodeJS server. And since IPv6 is public, we can access it across internet.
+using termux application in mobile phone, we can run a NodeJS server. And since IPv6 is public, we can access it across internet.

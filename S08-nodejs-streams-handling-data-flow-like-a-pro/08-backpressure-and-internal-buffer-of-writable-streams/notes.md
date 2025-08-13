@@ -1,18 +1,17 @@
-Backpressure and Internal Buffer of writeable Streams
+# Backpressure and Internal Buffer of Writable Streams
 
-    Read speed is fast of HardDisks and SSD as compared to write speed.
-    writeStream.writableLength -> How much data is loaded on it.
+- **Read speed** of hard disks and SSDs is generally faster than their **write speed**.
+- `writeStream.writableLength`: Indicates how much data is currently buffered for writing.
+- The internal buffer can hold more data than the `highWaterMark` value.
+- `writeStream.write()` returns a boolean:
+    - `true` if `writableLength` is less than or equal to `highWaterMark`
+    - `false` if the buffer exceeds `highWaterMark`
+- `writeStream.on("drain")`: This event is emitted when the buffer is emptied and the stream is ready for more data.
+- **Backpressure** occurs when a writable stream cannot process incoming data as quickly as it is received.
 
-    It can load data more than HighWaterMark value.
+## Why Does Backpressure Happen?
 
-    writeStream.write() return boolean value. True if it has writableLength lessthan/equal to HighWaterMark value, else false.
-
-    writeStream.on("drain") -> This event fires when the data is written.
-
-    Backpressure occurs when a Writable stream cannot process incoming data as fast as it’s being written to it.
-
-    Why Does Backpressure Happen?
-        Writable streams have an internal buffer. If you write too much data too quickly.
-        The buffer fills up.
-        The stream pauses or slows down incoming writes.
-        You must wait before writing more.
+- Writable streams have an internal buffer.
+- If you write data faster than it can be processed, the buffer fills up.
+- Once full, the stream slows down or pauses incoming writes.
+- You must wait for the `"drain"` event before writing more data to avoid overwhelming the stream.

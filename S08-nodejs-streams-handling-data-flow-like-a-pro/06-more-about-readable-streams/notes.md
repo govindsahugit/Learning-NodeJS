@@ -1,39 +1,41 @@
-More About Readable Streams
+## More About Readable Streams
 
-    readStream.setEncoding() -> Sets Encoding type
-    readStream.destroy() -> Destorys the streams and fire the close event.
-    we can pass error in destroy method. If error is passed then only it will fire the error event.
+- `readStream.setEncoding()` &mdash; Sets the encoding type for the stream.
+- `readStream.destroy([error])` &mdash; Destroys the stream and fires the `close` event. If an error is passed, the `error` event is also emitted.
 
-    Events:
-        close -> Always fires at the end
-        end -> Fires at the end of the stream
-        error -> Only fires when an error comes
-        open -> Fires  when the file descriptor is opened, Useful if you want to do something as soon as the file is accessible
-        ready -> Fires when the stream is ready to be read from
+### Key Events
 
-// ================================================ //
+- **open** &mdash; Emitted when the file descriptor is opened. Useful for actions as soon as the file is accessible.
+- **ready** &mdash; Emitted when the stream is ready to be read from.
+- **readable** &mdash; Indicates data is available to be read with `.read()`.
+- **data** &mdash; Emitted when data is available and flowing automatically.
+- **end** &mdash; Emitted when there is no more data to read.
+- **close** &mdash; Always emitted when the stream is closed or destroyed.
+- **error** &mdash; Emitted only if an error occurs.
 
-Flow of Events
+---
 
-    createReadStream("abc.txt")
-        ↓
-    'open' (file is accessible)
-        ↓
-    'ready' (buffer filled, ready to read)
-        ↓
-    ┌─────────────┐
-    │ Reading Flow│
-    └─────────────┘
-        ↓
-    'readable' (pull data with .read()) OR
-    'data'     (auto flow via .on('data'))
-        ↓
-    (pause/resume events optional)
-        ↓
-    'end' (no more data)
-        ↓
-    'close' (stream destroyed)
+### Flow of Events
 
-    At any time something goes wrong it fires error event.
+```mermaid
+graph TD
+    A[createReadStream("abc.txt")] --> B(open)
+    B --> C(ready)
+    C --> D{Reading Flow}
+    D --> E[readable<br/>(pull data with .read())]
+    D --> F[data<br/>(auto flow via .on('data'))]
+    E --> G[end]
+    F --> G
+    G --> H[close]
+    H --> I[Done]
+    A -.-> J[error]
+    B -.-> J
+    C -.-> J
+    D -.-> J
+    E -.-> J
+    F -.-> J
+    G -.-> J
+```
 
-Reply
+> At any point, if something goes wrong, the `error` event is emitted.
+

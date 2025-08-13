@@ -1,18 +1,27 @@
-Handling file using promisses
-    
-    import fs from "fs/promises";
+# Handling Files Using Promises in Node.js
 
-    const fileHandle = await fs.open("time.txt", mode);
+```javascript
+// Import the promises version of fs module
+import fs from "fs/promises";
 
-    // return a object with methods and properties
+// Open file and get file handle
+const fileHandle = await fs.open("time.txt", mode);
+// Returns an object with methods and properties for file operations
 
-    // Here we can directly perform read, write operation without passing file descriptor
+// Read from file (no file descriptor needed)
+const result = await fileHandle.read(options);
+// Returns { bytesRead: number, buffer: Buffer }
 
-    const r = await fileHandle.read(options);
-    // Return an object with bytesRead and Buffer 
+// Write to file
+const written = await fileHandle.write(content, options);
+// Returns { bytesWritten: number, buffer: Buffer }
 
-    const w = await fileHandle.write(content, options)
-    // Return an object with bytesWritten and Buffer 
+// Always close the file when done
+await fileHandle.close();
+```
 
-    fileHandle.close();
-    // Close the file
+Key points:
+- Uses modern promise-based API
+- Provides direct file operations through fileHandle
+- Recommended to always close files after use 
+- More structured error handling with try/catch

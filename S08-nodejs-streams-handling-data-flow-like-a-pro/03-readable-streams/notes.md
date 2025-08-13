@@ -1,23 +1,30 @@
-Problems we face without using Streams
+## Problems Without Using Streams
 
-    Using Buffer we cannot load file larger than 2 GiB
-    Large file reading/writing occupy space in RAM and increases CPU usage.
+- Using Buffers, you cannot load files larger than 2 GiB.
+- Reading or writing large files occupies significant RAM and increases CPU usage.
 
-Readable Streams
+## Readable Streams
 
-    for creating readStream we have to use normal fs module instead of promises. Cuz it give you streams method directly.
+- To create a readable stream, use the standard `fs` module (not the promises API), as it provides stream methods directly.
 
-    Eg.
-    const stream = fs.createReadStream("./ss.jpg", { highWaterMark: 20 * 1024 });
+**Example:**
 
-    fs.createReadStream() takes path and optional options object for how much chunk you need at a time.
+```js
+const fs = require('fs');
+const stream = fs.createReadStream('./ss.jpg', { highWaterMark: 20 * 1024 });
+```
 
-    It returns a object which has some methods for listening the events. 
+- `fs.createReadStream()` takes a file path and an optional options object (e.g., to specify chunk size).
+- It returns a stream object with methods for listening to events.
 
-    Eg.
+**Example:**
 
-    stream.on("data", (chunk) => {
-        console.log(chunk.byteLength);
-    });
+```js
+stream.on('data', (chunk) => {
+    console.log(chunk.byteLength);
+});
 
-    stream.on("end", () => console.log("Ended"));
+stream.on('end', () => {
+    console.log('Ended');
+});
+```

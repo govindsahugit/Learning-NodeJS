@@ -1,26 +1,25 @@
-## TCP/IP Model
+## TCP/IP Model Overview
 
-The **TCP/IP model** is a four-layer networking framework that underpins the Internet. It is more practical and widely used than the OSI model, accurately representing how data moves through real networks.
+The TCP/IP model is a practical, four-layer framework that describes how data moves across the Internet. It is simpler and more widely used in real-world networking than the OSI model.
 
-### TCP/IP Layers and OSI Model Mapping
+### TCP/IP Layers and Their Functions
 
-| TCP/IP Layer      | Corresponding OSI Layers                                 |
-|-------------------|---------------------------------------------------------|
-| 4. Application    | 7 (Application), 6 (Presentation), 5 (Session)          |
-| 3. Transport      | 4 (Transport)                                           |
-| 2. Internet       | 3 (Network)                                             |
-| 1. Network Access | 2 (Data Link) + 1 (Physical)                            |
+**1. Network Access Layer**  
+- Handles the physical transmission of data over network hardware (such as cables, Wi-Fi, and network cards).  
+- Combines the functions of the OSI model’s Physical and Data Link layers.
 
-### TCP/IP Layers Explained
+**2. Internet Layer**  
+- Manages addressing and routing of data between networks.  
+- Corresponds to the OSI model’s Network layer.
 
-| Layer             | Function                                                                 |
-|-------------------|-------------------------------------------------------------------------|
-| 4. Application    | Provides services for user applications                                 |
-| 3. Transport      | Ensures end-to-end communication, reliability, and flow control         |
-| 2. Internet       | Handles addressing and routing of packets across networks               |
-| 1. Network Access | Manages physical transmission and access to network media (hardware)    |
+**3. Transport Layer**  
+- Ensures reliable and accurate delivery of data between devices.  
+- Equivalent to the OSI model’s Transport layer.
 
-**Notes:**
-- The TCP/IP model forms the basis of the Internet.
-- It is simpler and more practical than the OSI model.
-- The OSI model is mainly used for theoretical understanding, while TCP/IP is used in real-world networking.
+**4. Application Layer**  
+Combines OSI’s Application, Presentation, and Session layers.
+Key Points:
+
+TCP/IP is the real-world model behind the Internet.
+It’s simpler than OSI and focuses on practical implementation.
+OSI is mainly for learning concepts, while TCP/IP is what’s actually used.

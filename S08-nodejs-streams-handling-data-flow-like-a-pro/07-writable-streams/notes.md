@@ -1,9 +1,12 @@
-Writeable Streams
+## Writable Streams
 
-    fs.createWriteStream(path, {options});
-    It will create the file if not exist, Similar to writeFile Method.
-    By default write value, technically highWaterMark value is 16 KB(16384 Bytes).
+- `fs.createWriteStream(path, { options })`  
+    Creates a writable stream to the specified file. If the file does not exist, it will be created. This is similar to the `writeFile` method.
 
-    writeStream.writableHighWaterMark -> gives highWaterMark value.
+- By default, the writable stream's `highWaterMark` (buffer size) is 16 KB (16,384 bytes).
 
-    writeStream.write() -> 1st Write() will wipeout all the data next write()'s will Append the data
+- `writeStream.writableHighWaterMark`  
+    Returns the current `highWaterMark` value for the stream.
+
+- `writeStream.write()`  
+    The first call to `write()` will overwrite the file's contents. Subsequent calls will append data to the file.

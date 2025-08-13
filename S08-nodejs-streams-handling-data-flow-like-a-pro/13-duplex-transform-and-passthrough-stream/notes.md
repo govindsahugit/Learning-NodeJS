@@ -1,16 +1,16 @@
-Duplex, Transform, Pass Through Streams
+# Duplex, Transform, and PassThrough Streams
 
-    🟦 1. Duplex Stream
+## 🟦 Duplex Stream
 
-    It can read and write data — both at the same time.
-    Think of it like a walkie-talkie — you can send and receive messages.
+- Can **read and write data simultaneously**.
+- *Analogy*: Like a walkie-talkie — you can send and receive messages at the same time.
 
-    🟩 2. Transform Stream
+## 🟩 Transform Stream
 
-    It can read and write, but it also changes (transforms) the data in between.
-    Think of it like a translator — you say something, it converts it, and then passes it on.
+- Can **read and write**, but also **modifies (transforms) the data** as it passes through.
+- *Analogy*: Like a translator — you say something, it converts it, and then passes it on.
 
-    🟨 3. PassThrough Stream
+## 🟨 PassThrough Stream
 
-    It also reads and writes, but it does not change the data.
-    Think of it like a glass pipe — data just passes through it.
+- Can **read and write**, but **does not alter the data**.
+- *Analogy*: Like a glass pipe — data just passes through unchanged.
