@@ -1,0 +1,18 @@
+[
+    {
+        "id": "350a38a6-5b50-4cfe-a151-78cd9e882c9d",
+        "name": "root-anurag@gmail.com",
+        "userId": "e75d8a68-8ed2-4088-b8d3-1fbbfe4819c1",
+        "parentDirId": null,
+        "files": [],
+        "directories": []
+    },
+    {
+        "id": "43bb5568-b0eb-434f-a96a-c656f2ec93b1",
+        "name": "root-govind@gmail.com",
+        "userId": "77f771c3-e3e2-4804-b62b-0a0a1a42233b",
+        "parentDirId": null,
+        "files": [],
+        "directories": []
+    }
+]
