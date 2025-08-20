@@ -1,5 +1,6 @@
 import express from "express";
 import { ObjectId } from "mongodb";
+import { rm } from "fs/promises";
 
 const router = express.Router();
 
@@ -65,11 +66,17 @@ router.get("/{:id}", async (req, res, next) => {
       .sort({ name: 1 })
       .toArray();
 
-    const files = [];
+    const filesCollection = db.collection("files");
+    const files = await filesCollection
+      .find({
+        parentDirId: directoryData._id,
+      })
+      .sort({ name: 1 })
+      .toArray();
 
     return res.status(200).json({
       ...directoryData,
-      files,
+      files: files.map((file) => ({ ...file, id: file._id })),
       directories: directories.map((dir) => ({ ...dir, id: dir._id })),
     });
   } catch (error) {
@@ -111,6 +118,7 @@ router.delete("/:id", async (req, res, next) => {
   const { id } = req.params;
   const db = req.db;
   const dirCollection = db.collection("directories");
+  const fileCollection = db.collection("files");
 
   try {
     let dirIds = [id];
@@ -126,9 +134,27 @@ router.delete("/:id", async (req, res, next) => {
         dirIds.push(dir._id.toString());
       });
 
-      await dirCollection.deleteOne({_id: new ObjectId(String(id))})
+      await dirCollection.deleteOne({ _id: new ObjectId(String(id)) });
 
       await dirCollection.deleteMany({ parentDirId: new ObjectId(String(id)) });
+
+      const fileIds = await fileCollection
+        .find(
+          { parentDirId: new ObjectId(String(id)) },
+          { projection: { _id: 1, extention: 1 } }
+        )
+        .toArray();
+
+      await fileCollection.deleteMany({
+        parentDirId: new ObjectId(String(id)),
+      });
+
+      fileIds.forEach(async (file) => {
+        await rm(
+          `${process.cwd()}/storage/${file._id.toString()}${file.extention}`,
+          { recursive: true }
+        );
+      });
 
       const index = dirIds.indexOf(id);
       dirIds.splice(index, 1);
@@ -143,8 +169,8 @@ router.delete("/:id", async (req, res, next) => {
       deleteDir(dirId);
     });
     res.status(200).json({
-      message: "Directory deleted successfully"
-    })
+      message: "Directory deleted successfully",
+    });
   } catch (error) {
     next(error);
   }
