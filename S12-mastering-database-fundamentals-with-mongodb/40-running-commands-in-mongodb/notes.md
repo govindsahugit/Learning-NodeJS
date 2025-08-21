@@ -1,0 +1,1 @@
+We learned about mongodb command where we can run powerful operation using command instead of method or functions
