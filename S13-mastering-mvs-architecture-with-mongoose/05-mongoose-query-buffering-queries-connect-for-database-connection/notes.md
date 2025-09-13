@@ -19,5 +19,5 @@ This means you typically connect once (e.g., in index.js or db.js) and then impo
 mongoose.connect(uri);
 
 // userModel.js
-const User = mongoose.model("User", userSchema); // uses the same connection
+const User = mongoose.model("User", userSchema); // uses the same con`nection
 ```

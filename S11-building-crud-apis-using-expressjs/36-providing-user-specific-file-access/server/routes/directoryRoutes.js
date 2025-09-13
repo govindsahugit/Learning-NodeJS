@@ -7,10 +7,10 @@ const router = express.Router();
 
 // Read
 router.get("/{:id}", async (req, res) => {
-  const { id } = req.params;
-  const directoryData = id ? directoriesData.find((folder) => folder.id === id) : directoriesData.find((folder) => folder.id === req.user.rootDirId)
+  const { id } = req.params
+  const directoryData = id ? directoriesData.find((folder) => folder?.id === id) : directoriesData.find((folder) => folder?.id === req.user.rootDirId)
 
-  if (directoryData?.userId !== req.user.id) return res.status(401).json({ error: "Unauthorized access!" })
+  if (directoryData?.userId !== req.user?.id) return res.status(401).json({ error: "Unauthorized access!" })
 
   if (!directoryData) return res.status(404).json({ message: "Directory not found!" })
   const files = directoryData?.files.map((fileId) =>

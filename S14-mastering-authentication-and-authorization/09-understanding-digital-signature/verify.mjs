@@ -1,5 +1,4 @@
 import crypto from "node:crypto";
-import { createWriteStream } from "node:fs";
 import { readFile } from "node:fs/promises";
 
 const signedFileContent = await readFile("loan-agreement-signed.md", "utf-8");

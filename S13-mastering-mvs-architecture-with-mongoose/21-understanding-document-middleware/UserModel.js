@@ -68,7 +68,8 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.pre("save", function () {
+userSchema.pre("save", function () { 
+  // also works for inserOne() and create()
   console.log("running my document middleware!");
   this.password = `${this.name}${this.age}`;
   console.log(this);

@@ -71,7 +71,7 @@ const userSchema = new Schema(
 userSchema.pre("insertMany", function (next, docs) {
   console.log("running modle middlewar");
   console.log(docs);
-  next()
+  next();
 });
 
 const User = mongoose.model("User", userSchema);

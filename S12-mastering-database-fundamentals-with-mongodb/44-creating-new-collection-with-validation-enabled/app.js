@@ -5,7 +5,7 @@ await client.connect();
 
 const db = client.db();
 
-// const collections = await db.listCollections({ name: "users" }).toArray();
+const collections = await db.listCollections({ name: "users" }).toArray();
 // console.log(collections);
 
 // await db.command({

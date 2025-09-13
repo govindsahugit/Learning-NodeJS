@@ -103,6 +103,6 @@ export const getUserDetails = (req, res) => {
 };
 
 export const logoutUser = (req, res) => {
-  res.clearCookie("uid");
+  res.clearCookie("token");
   res.status(200).end();
 };

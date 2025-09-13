@@ -25,8 +25,6 @@ router.post("/register", async (req, res) => {
       parentDir: null,
     });
 
-    console.log(userRootDir);
-
     const userRootDirId = userRootDir.insertedId;
 
     const insertUser = await users.insertOne({

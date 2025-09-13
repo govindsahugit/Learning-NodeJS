@@ -118,7 +118,7 @@ router.patch("/:id", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   const { id } = req.params;
   const db = req.db;
-  const user = req.user;
+  // const user = req.user;
 
   const dirObjId = new ObjectId(id);
 
@@ -127,8 +127,8 @@ router.delete("/:id", async (req, res, next) => {
 
   try {
     const dir = await dirCollection.findOne(
-      { _id: dirObjId, userId: user._id },
-      { projection: { _id } }
+      { _id: dirObjId, userId: req.user._id },
+      { projection: { _id: 1 } }
     );
 
     if (!dir)
