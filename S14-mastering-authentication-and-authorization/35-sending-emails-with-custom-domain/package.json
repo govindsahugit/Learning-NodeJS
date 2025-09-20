@@ -1,0 +1,17 @@
+{
+  "name": "34-sending-emails-using-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "nodemailer": "^7.0.6",
+    "resend": "^6.1.0"
+  }
+}
