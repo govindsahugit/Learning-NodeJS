@@ -9,8 +9,8 @@
 // });
 
 // const info = await transporter.sendMail({
-//   from: "Govind Sahu <govind@parumalbsp.online>",
-//   to: "sahuji.0812@gmail.com",
+//   from: "Govind Sahu <sender email>",
+//   to: "receiver email",
 //   subject: "Nodej Email Server",
 //   html: "<b>This Email has sent by using NodeJS?</b>",
 // });
@@ -22,8 +22,8 @@ import { Resend } from "resend";
 const resend = new Resend("password");
 
 const result = await resend.emails.send({
-  from: "Govind Sahu <govind@parumalbsp.online>",
-  to: ["thisisgovindsahu@gmail.com"],
+  from: "Govind Sahu <sender emain>",
+  to: ["reciver email"],
   subject: "Email Sender Server",
   html: "<p>it works!</p>",
 });
