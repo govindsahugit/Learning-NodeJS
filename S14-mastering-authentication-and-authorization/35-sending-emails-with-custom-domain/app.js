@@ -4,7 +4,7 @@
 //   host: "smtp.resend.com",
 //   auth: {
 //     user: "resend",
-//     pass: "re_56mMeNzS_972Wrn4xtczm7zCY1hFq82vr",
+//     pass: "password",
 //   },
 // });
 
@@ -19,7 +19,7 @@
 
 import { Resend } from "resend";
 
-const resend = new Resend("re_56mMeNzS_972Wrn4xtczm7zCY1hFq82vr");
+const resend = new Resend("password");
 
 const result = await resend.emails.send({
   from: "Govind Sahu <govind@parumalbsp.online>",
