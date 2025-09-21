@@ -1,0 +1,5 @@
+https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=1080347041084-lisqfqps6nrum77mi2g2l0qnq725savq.apps.googleusercontent.com&scope=openid%20email%20profile&redirect_uri=http://localhost:5173/
+ 
+
+
+http://localhost:5173/?code=4%2F0AVGzR1A1NIXWN6qRyXI5I7_RlLW41eakV8o2XWpx1jCcr8XhgG6A6LN8FWoTfTeBKt1IRw&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=0&prompt=consent
