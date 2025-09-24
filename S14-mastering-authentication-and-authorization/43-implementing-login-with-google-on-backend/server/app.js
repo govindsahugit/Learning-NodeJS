@@ -19,26 +19,33 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.post("/auth/google/callback", async (req, res) => {
+app.get("/auth/google/callback", async (req, res) => {
   const { sid } = req.cookies;
+  const { code } = req.query
   const existingSession = sessions.find(({ sessionId }) => sid === sessionId);
   if (existingSession) {
     return res.json({ message: "Already logged in." });
   }
 
-  const { code } = req.body;
   const { sub, email, name, picture } = await fetchUserFromGoogle(code);
   const existingUser = users.find(({ id }) => id === sub);
 
   if (existingUser) {
+    const existingSessionIndex = sessions.findIndex(({ userId }) => userId === sub)
+
     const sessionId = crypto.randomUUID();
-    sessions.push({ sessionId, userId: sub });
+
+    if (existingSessionIndex !== -1) {
+      console.log('hi');
+      sessions[existingSessionIndex].sessionId = sessionId;
+    } else {
+      console.log('hii');
+      sessions.push({ sessionId, userId: sub });
+    }
+
     await writeFile("sessionsDB.json", JSON.stringify(sessions, null, 2));
-    res.cookie("sid", sessionId, {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: true,
-    });
-    return res.json(existingUser);
+    res.redirect(`http://localhost:5500/client/callback.html?sid=${sessionId}`)
+    return res.end()
   }
 
   const newUser = { id: sub, email, name, picture };
@@ -47,12 +54,18 @@ app.post("/auth/google/callback", async (req, res) => {
   const sessionId = crypto.randomUUID();
   sessions.push({ sessionId, userId: sub });
   await writeFile("sessionsDB.json", JSON.stringify(sessions, null, 2));
-  res.cookie("sid", sessionId, {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true,
-  });
-  res.json(newUser);
+  res.redirect(`http://localhost:5500/client/callback.html?sid=${sessionId}`)
+  return res.end()
 });
+
+app.get('/session-cookie', async (req, res) => {
+  const { sid } = req.query;
+  res.cookie('sid', sid, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  })
+  res.end()
+})
 
 app.get("/profile", async (req, res) => {
   const { sid } = req.cookies;
@@ -66,8 +79,16 @@ app.get("/profile", async (req, res) => {
     return res.status(404).json({ error: "User not found." });
   }
 
-  return res.json(existingUser);
+  return res.status(200).json(existingUser);
 });
+
+app.post('/auth/logout', async (req, res) => {
+  const { sid } = req.cookies;
+  const sessionIndex = sessions.findIndex(({ sessionId }) => sessionId === sid)
+  sessions.splice(sessionIndex, 1)
+  await writeFile('sessionsDB.json', JSON.stringify(sessions, null, 2))
+  res.status(204).end()
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

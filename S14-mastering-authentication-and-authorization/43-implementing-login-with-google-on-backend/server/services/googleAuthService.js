@@ -1,7 +1,8 @@
 const clientId =
-  "594555697613-18p3s2o6hl7mvc3gj0o2a2bg7b27tj9m.apps.googleusercontent.com";
-const clientSecret = "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";
-const redirectUrl = "http://localhost:5500/callback.html";
+  "1080347041084-lisqfqps6nrum77mi2g2l0qnq725savq.apps.googleusercontent.com";
+const clientSecret = "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";
+// const redirectUrl = "http://localhost:5500/client/callback.html";
+const redirectUrl = "http://localhost:4000/auth/google/callback";
 
 export async function fetchUserFromGoogle(code) {
   console.log("Running fetchIdToken function...");
