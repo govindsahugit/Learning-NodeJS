@@ -1,6 +1,7 @@
 const nameElement = document.querySelector("#name");
 const emailElement = document.querySelector("#email");
 const imageElement = document.createElement("img");
+const logoutBtn = document.getElementById("logout-btn");
 
 const baseURL = "http://localhost:4000";
 
@@ -19,3 +20,14 @@ emailElement.textContent = email;
 imageElement.src = picture;
 
 document.body.appendChild(imageElement);
+
+// ========================================== //
+
+logoutBtn.addEventListener("click", async () => {
+  const res = await fetch(`${baseURL}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (res.status === 204) location.href = "./login";
+});
