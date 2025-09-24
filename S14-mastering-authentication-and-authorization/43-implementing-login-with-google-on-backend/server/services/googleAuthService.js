@@ -1,6 +1,6 @@
 const clientId =
   "1080347041084-lisqfqps6nrum77mi2g2l0qnq725savq.apps.googleusercontent.com";
-const clientSecret = "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";
+const clientSecret = "";
 // const redirectUrl = "http://localhost:5500/client/callback.html";
 const redirectUrl = "http://localhost:4000/auth/google/callback";
 
