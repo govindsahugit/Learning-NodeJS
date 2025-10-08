@@ -16,7 +16,7 @@ function App() {
         onError={() => {
           console.log("Login Failed");
         }}
-        useOneTap
+        useOneTap 
       />
     </>
   );
