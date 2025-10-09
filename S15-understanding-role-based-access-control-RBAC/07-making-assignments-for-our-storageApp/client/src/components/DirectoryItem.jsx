@@ -24,6 +24,7 @@ function DirectoryItem({
   handleDeleteDirectory,
   openRenameModal,
   BASE_URL,
+  adminView,
 }) {
   // Convert the file icon string to the actual Icon component
   function renderFileIcon(iconString) {
@@ -89,6 +90,7 @@ function DirectoryItem({
       {/* Context menu, if active */}
       {activeContextMenu === item.id && (
         <ContextMenu
+          adminView={adminView}
           item={item}
           contextMenuPos={contextMenuPos}
           isUploadingItem={isUploadingItem}

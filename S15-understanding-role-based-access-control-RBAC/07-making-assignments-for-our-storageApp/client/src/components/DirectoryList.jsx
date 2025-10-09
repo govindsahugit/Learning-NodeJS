@@ -14,6 +14,7 @@ function DirectoryList({
   handleDeleteDirectory,
   openRenameModal,
   BASE_URL,
+  adminView,
 }) {
   return (
     <div className="directory-list">
@@ -22,6 +23,7 @@ function DirectoryList({
 
         return (
           <DirectoryItem
+            adminView={adminView}
             key={item.id}
             item={item}
             handleRowClick={handleRowClick}

@@ -495,6 +495,7 @@ function DirectoryView({ adminView }) {
         )
       ) : (
         <DirectoryList
+          adminView={adminView}
           items={combinedItems}
           handleRowClick={handleRowClick}
           activeContextMenu={activeContextMenu}
