@@ -114,11 +114,10 @@ td {
 }
 
 select {
-  /* margin-left: 50px; */
   outline: unset;
   width: 20px;
   position: absolute;
-  right: 10px;
+  right: 5px;
   top: 15px;
 }
 

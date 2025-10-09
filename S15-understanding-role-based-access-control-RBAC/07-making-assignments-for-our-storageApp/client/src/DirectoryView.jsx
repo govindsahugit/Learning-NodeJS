@@ -71,6 +71,9 @@ function DirectoryView({ adminView }) {
       if (res.status === 401) {
         navigate("/users");
         return;
+      } else if (res.status === 403) {
+        navigate("/users");
+        return;
       }
 
       await handleFetchErrors(res);
@@ -164,7 +167,9 @@ function DirectoryView({ adminView }) {
     if (type === "directory") {
       navigate(`${adminView ? "/admin/user" : ""}/directory/${id}`);
     } else {
-      window.location.href = `${BASE_URL}/file/${id}`;
+      window.location.href = `${BASE_URL}/${
+        adminView ? "admin/read/user/file" : "file"
+      }/${id}`;
     }
   }
 
@@ -234,7 +239,13 @@ function DirectoryView({ adminView }) {
 
     // Start upload
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", `${BASE_URL}/file/${dirId || ""}`, true);
+    xhr.open(
+      "POST",
+      `${BASE_URL}/${adminView ? "admin/upload/user/file" : "file"}/${
+        dirId || ""
+      }`,
+      true
+    );
     xhr.withCredentials = true;
     xhr.setRequestHeader("filename", currentItem.name);
 
@@ -289,10 +300,13 @@ function DirectoryView({ adminView }) {
   async function handleDeleteFile(id) {
     setErrorMessage("");
     try {
-      const response = await fetch(`${BASE_URL}/file/${id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${BASE_URL}/${adminView ? "admin/delete/user/file" : "file"}/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
       await handleFetchErrors(response);
       !adminView ? getDirectoryItems() : getUserDirData();
     } catch (error) {
@@ -363,7 +377,9 @@ function DirectoryView({ adminView }) {
     try {
       const url =
         renameType === "file"
-          ? `${BASE_URL}/file/${renameId}`
+          ? `${BASE_URL}/${
+              adminView ? "admin/rename/user/file" : "file"
+            }/${renameId}`
           : `${BASE_URL}/${
               adminView ? "admin/rename/user/dir" : "directory"
             }/${renameId}`;

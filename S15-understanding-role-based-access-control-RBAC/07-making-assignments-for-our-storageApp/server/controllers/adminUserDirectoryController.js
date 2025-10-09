@@ -11,6 +11,12 @@ import {
 export const readUserDirData = async (req, res, next) => {
   const { id } = req.params;
   try {
+    const user = await User.findOne({ rootDirId: id }).lean();
+
+    if (user)
+      if (req.user.role <= user?.role)
+        return res.status(403).json({ error: "Access not allowed!" });
+
     const dirData = await Directory.findById(id).lean();
 
     const directoryData = await getDirData(dirData, res);

@@ -45,7 +45,7 @@ export const renameDir = async (req, res, id) => {
   return res.status(201).json({ message: "Directory renamed successfully" });
 };
 
-export const deleteDir = async (res , id) => {
+export const deleteDir = async (res, id) => {
   const getDirectoryContents = async (id) => {
     let files = await File.find({ parentDirId: id }).select("extention").lean();
 
@@ -84,4 +84,13 @@ export const deleteDir = async (res , id) => {
 export const getDirectory = async (id) => {
   const directory = await Directory.findById(id).lean();
   return directory;
+};
+
+export const validateDirectory = async (res, dirId) => {
+  const directory = await getDirectory(dirId);
+  if (!directory)
+    return res.status(404).json({
+      error: "Parent dir not found!",
+    });
+  return { directory };
 };

@@ -4,6 +4,7 @@ import fileRoutes from "./routes/fileRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import adminUserDirRoutes from "./routes/adminUserDirRoutes.js";
+import adminUserFileRoutes from "./routes/adminUserFileRoutes.js";
 import cors from "cors";
 import { CheckAuth } from "./middlewares/authMiddleware.js";
 import { connectDB } from "./config/db.js";
@@ -38,6 +39,8 @@ app.use("/", userRoutes);
 app.use("/", adminRoutes);
 
 app.use("/", CheckAuth, adminUserDirRoutes);
+
+app.use("/", CheckAuth, adminUserFileRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err);
