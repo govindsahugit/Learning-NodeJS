@@ -5,7 +5,7 @@ import {
   getDirectoryContents,
   validateDirectory,
 } from "../utils/directoryUtils.js";
-import { fetchFile } from "../utils/fileUtils.js";
+import { fetchFile, fileValidate } from "../utils/fileUtils.js";
 
 export const getDirectoryData = async (req, res, next) => {
   const { id } = req.params;
@@ -100,6 +100,42 @@ export const readPublicFile = async (req, res, next) => {
 
     const response = await fetchFile(req, res, id, file);
     return response;
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const makeFilePublic = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const { file } = await fileValidate(res, id);
+
+    if (file.userId.toString() !== req.user._id.toString())
+      return res.status(403).json({ error: "Unauthorized Operation!" });
+
+    await File.findByIdAndUpdate(id, { isPublic: true });
+
+    return res.status(200).json({
+      message: "File publiced successfully!",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const makeFileUnPublic = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const { file } = await fileValidate(res, id);
+
+    if (file.userId.toString() !== req.user._id.toString())
+      return res.status(403).json({ error: "Unauthorized Operation!" });
+
+    await File.findByIdAndUpdate(id, { isPublic: false });
+
+    return res.status(200).json({
+      message: "File publiced successfully!",
+    });
   } catch (error) {
     next(error);
   }

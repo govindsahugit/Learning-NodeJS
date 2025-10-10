@@ -44,8 +44,7 @@ function DirectoryView({ adminView, isPublic }) {
   const [activeContextMenu, setActiveContextMenu] = useState(null);
   const [contextMenuPos, setContextMenuPos] = useState({ x: 0, y: 0 });
 
-  const [publicDirId, setPublicDirId] = useState("");
-  const [publicFileId, setPublicFileId] = useState("");
+  const [publicPath, setPublicPath] = useState("");
 
   /**
    * Utility: handle fetch errors
@@ -500,13 +499,13 @@ function DirectoryView({ adminView, isPublic }) {
     ...filesList.map((f) => ({ ...f, isDirectory: false })),
   ];
 
-  const handleShareDirectory = async (item) => {
+  const handlePublicDirectory = async (item) => {
     setErrorMessage("");
     try {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/public/directory/${item.id}`,
         {
-          method: "POST",
+          method: item.isPublic ? "PATCH" : "POST",
           credentials: "include",
         }
       );
@@ -515,8 +514,8 @@ function DirectoryView({ adminView, isPublic }) {
         setErrorMessage(data.error);
         return;
       }
-      setPublicDirId(item.id);
-      setShowSharePopup(true);
+      setPublicPath(`http://localhost:5173/public/directory/${item.id}`);
+      item.isPublic ? setShowSharePopup(false) : setShowSharePopup(true);
       isPublic
         ? getPublicDirData()
         : !adminView
@@ -527,13 +526,13 @@ function DirectoryView({ adminView, isPublic }) {
     }
   };
 
-  const handleUnpublicDirectory = async (item) => {
+  const handlePublicFile = async (item) => {
     setErrorMessage("");
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/public/directory/${item.id}`,
+        `${import.meta.env.VITE_API_URL}/public/file/${item.id}`,
         {
-          method: "PATCH",
+          method: item.isPublic ? "PATCH" : "POST",
           credentials: "include",
         }
       );
@@ -542,6 +541,8 @@ function DirectoryView({ adminView, isPublic }) {
         setErrorMessage(data.error);
         return;
       }
+      setPublicPath(`http://localhost:4000/public/file/${item.id}`);
+      item.isPublic ? setShowSharePopup(false) : setShowSharePopup(true);
       isPublic
         ? getPublicDirData()
         : !adminView
@@ -551,10 +552,6 @@ function DirectoryView({ adminView, isPublic }) {
       setErrorMessage(error.message);
     }
   };
-
-  const handleShareFile = (item) => {};
-
-  const handleUnpublicFile = (item) => {};
 
   return (
     <div className="directory-view">
@@ -614,10 +611,10 @@ function DirectoryView({ adminView, isPublic }) {
         )
       ) : (
         <DirectoryList
-          handleUnpublicDirectory={handleUnpublicDirectory}
-          handleUnpublicFile={handleUnpublicFile}
-          handleShareDirectory={handleShareDirectory}
-          handleShareFile={handleShareFile}
+          handleUnpublicDirectory={handlePublicDirectory}
+          handleUnpublicFile={handlePublicFile}
+          handleShareDirectory={handlePublicDirectory}
+          handleShareFile={handlePublicFile}
           adminView={adminView}
           items={combinedItems}
           handleRowClick={handleRowClick}
@@ -638,7 +635,7 @@ function DirectoryView({ adminView, isPublic }) {
       <SharePopUp
         setShowSharePopup={setShowSharePopup}
         showSharePopup={showSharePopup}
-        textToCopy={`http://localhost:5173/public/directory/${publicDirId}`}
+        textToCopy={publicPath}
       />
     </div>
   );
