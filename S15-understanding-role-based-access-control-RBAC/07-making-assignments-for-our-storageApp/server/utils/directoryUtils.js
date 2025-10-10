@@ -46,24 +46,6 @@ export const renameDir = async (req, res, id) => {
 };
 
 export const deleteDir = async (res, id) => {
-  const getDirectoryContents = async (id) => {
-    let files = await File.find({ parentDirId: id }).select("extention").lean();
-
-    let directories = await Directory.find({ parentDirId: id })
-      .select("_id")
-      .lean();
-
-    for (const { _id } of directories) {
-      const { files: childFiles, directories: childDirectories } =
-        await getDirectoryContents(_id);
-
-      files = [...files, ...childFiles];
-      directories = [...directories, ...childDirectories];
-    }
-
-    return { files, directories };
-  };
-
   const { files, directories } = await getDirectoryContents(id);
 
   for (const { _id, extention } of files) {
@@ -79,6 +61,24 @@ export const deleteDir = async (res, id) => {
   });
 
   return res.json({ message: "Directory deleted successfully" });
+};
+
+export const getDirectoryContents = async (id) => {
+  let files = await File.find({ parentDirId: id }).select("extention").lean();
+
+  let directories = await Directory.find({ parentDirId: id })
+    .select("_id")
+    .lean();
+
+  for (const { _id } of directories) {
+    const { files: childFiles, directories: childDirectories } =
+      await getDirectoryContents(_id);
+
+    files = [...files, ...childFiles];
+    directories = [...directories, ...childDirectories];
+  }
+
+  return { files, directories };
 };
 
 export const getDirectory = async (id) => {

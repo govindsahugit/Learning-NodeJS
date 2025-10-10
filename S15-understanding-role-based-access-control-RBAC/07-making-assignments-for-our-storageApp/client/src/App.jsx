@@ -35,6 +35,10 @@ const router = createBrowserRouter([
     path: "/admin/user/directory/:dirId",
     element: <DirectoryView adminView={true} />,
   },
+  {
+    path: "/public/directory/:dirId",
+    element: <DirectoryView isPublic={true} />,
+  },
 ]);
 
 function App() {

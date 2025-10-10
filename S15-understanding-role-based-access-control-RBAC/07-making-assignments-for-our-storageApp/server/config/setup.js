@@ -39,7 +39,7 @@ try {
             bsonType: "bool",
           },
           role: {
-            bsonType: "number"
+            bsonType: "number",
           },
         },
         additionalProperties: false,
@@ -67,6 +67,9 @@ try {
           },
           userId: {
             bsonType: "objectId",
+          },
+          isPublic: {
+            bsonType: "bool",
           },
         },
         additionalProperties: false,
@@ -97,6 +100,9 @@ try {
           },
           extention: {
             bsonType: "string",
+          },
+          isPublic: {
+            bsonType: "bool",
           },
         },
         additionalProperties: false,

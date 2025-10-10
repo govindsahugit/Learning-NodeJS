@@ -8,6 +8,10 @@ function ContextMenu({
   openRenameModal,
   BASE_URL,
   adminView,
+  handleShareFile,
+  handleShareDirectory,
+  handleUnpublicDirectory,
+  handleUnpublicFile,
 }) {
   // Directory context menu
   if (item.isDirectory) {
@@ -25,6 +29,19 @@ function ContextMenu({
           onClick={() => handleDeleteDirectory(item.id)}>
           Delete
         </div>
+        {!item.isPublic ? (
+          <div
+            className="context-menu-item"
+            onClick={() => handleShareDirectory(item)}>
+            Public
+          </div>
+        ) : (
+          <div
+            className="context-menu-item"
+            onClick={() => handleUnpublicDirectory(item)}>
+            Unpublic
+          </div>
+        )}
       </div>
     );
   } else {
@@ -67,6 +84,19 @@ function ContextMenu({
             onClick={() => handleDeleteFile(item.id)}>
             Delete
           </div>
+          {!item.isPublic ? (
+            <div
+              className="context-menu-item"
+              onClick={() => handleShareFile(item)}>
+              Public
+            </div>
+          ) : (
+            <div
+              className="context-menu-item"
+              onClick={() => handleUnpublicFile(item)}>
+              Unpublic
+            </div>
+          )}
         </div>
       );
     }

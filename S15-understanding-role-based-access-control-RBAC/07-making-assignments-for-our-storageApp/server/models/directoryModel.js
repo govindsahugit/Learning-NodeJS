@@ -17,6 +17,10 @@ const directorySchema = new Schema(
       default: null,
       ref: "Directory",
     },
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     strict: "throw",

@@ -303,3 +303,79 @@
 .login-btn:hover {
   background-color: rgb(233, 233, 233);
 }
+
+#share-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #62626234;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+#share-popup > div {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  width: 360px;
+  height: 110px;
+  border-radius: 10px;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+}
+
+#share-url {
+  background: #efefef;
+  width: 80%;
+  overflow: hidden;
+  padding: 5px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+#share-popup > div > div {
+  display: flex;
+}
+
+.ri-file-copy-2-line {
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.share-icon {
+  font-size: 20px;
+}
+
+.whatsapp-icon {
+  font-size: 30px;
+  margin-right: 6px;
+  color: green;
+}
+
+#share-icons {
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
+}
+
+#share-icons a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #000;
+}
+
+#share-icons button {
+  color: #fff;
+  background-color: red;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 5px;
+  margin-left: 10px;
+}

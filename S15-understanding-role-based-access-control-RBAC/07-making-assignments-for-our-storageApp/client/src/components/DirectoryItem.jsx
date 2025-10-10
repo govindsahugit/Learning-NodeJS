@@ -25,6 +25,10 @@ function DirectoryItem({
   openRenameModal,
   BASE_URL,
   adminView,
+  handleShareDirectory,
+  handleShareFile,
+  handleUnpublicDirectory,
+  handleUnpublicFile,
 }) {
   // Convert the file icon string to the actual Icon component
   function renderFileIcon(iconString) {
@@ -90,6 +94,10 @@ function DirectoryItem({
       {/* Context menu, if active */}
       {activeContextMenu === item.id && (
         <ContextMenu
+          handleUnpublicDirectory={handleUnpublicDirectory}
+          handleUnpublicFile={handleUnpublicFile}
+          handleShareDirectory={handleShareDirectory}
+          handleShareFile={handleShareFile}
           adminView={adminView}
           item={item}
           contextMenuPos={contextMenuPos}

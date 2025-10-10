@@ -5,8 +5,9 @@ import CreateDirectoryModal from "./components/CreateDirectoryModal";
 import RenameModal from "./components/RenameModal";
 import DirectoryList from "./components/DirectoryList";
 import "./DirectoryView.css";
+import SharePopUp from "./components/SharePopUp";
 
-function DirectoryView({ adminView }) {
+function DirectoryView({ adminView, isPublic }) {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const { dirId } = useParams();
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ function DirectoryView({ adminView }) {
   const [showCreateDirModal, setShowCreateDirModal] = useState(false);
   const [newDirname, setNewDirname] = useState("New Folder");
 
+  const [showSharePopup, setShowSharePopup] = useState(false);
+
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [renameType, setRenameType] = useState(null); // "directory" or "file"
   const [renameId, setRenameId] = useState(null);
@@ -40,6 +43,9 @@ function DirectoryView({ adminView }) {
   // Context menu
   const [activeContextMenu, setActiveContextMenu] = useState(null);
   const [contextMenuPos, setContextMenuPos] = useState({ x: 0, y: 0 });
+
+  const [publicDirId, setPublicDirId] = useState("");
+  const [publicFileId, setPublicFileId] = useState("");
 
   /**
    * Utility: handle fetch errors
@@ -89,6 +95,34 @@ function DirectoryView({ adminView }) {
     }
   };
 
+  const getPublicDirData = async () => {
+    setErrorMessage(""); // clear any existing error
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/public/directory/${dirId}`,
+        { credentials: "include" }
+      );
+
+      const data = await res.json();
+
+      if (res.status === 401) {
+        setErrorMessage(data.error);
+        return;
+      }
+
+      await handleFetchErrors(res);
+
+      // Set directory name
+      setDirectoryName(dirId ? data.name : "My Drive");
+
+      // Reverse directories and files so new items show on top
+      setDirectoriesList([...data.directories]);
+      setFilesList([...data.files]);
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
+
   /**
    * Fetch directory contents
    */
@@ -119,7 +153,11 @@ function DirectoryView({ adminView }) {
   }
 
   useEffect(() => {
-    !adminView ? getDirectoryItems() : getUserDirData();
+    isPublic
+      ? getPublicDirData()
+      : !adminView
+      ? getDirectoryItems()
+      : getUserDirData();
     // Reset context menu
     setActiveContextMenu(null);
   }, [dirId]);
@@ -165,10 +203,14 @@ function DirectoryView({ adminView }) {
    */
   function handleRowClick(type, id) {
     if (type === "directory") {
-      navigate(`${adminView ? "/admin/user" : ""}/directory/${id}`);
+      navigate(
+        `${
+          isPublic ? "/public" : adminView ? "/admin/user" : ""
+        }/directory/${id}`
+      );
     } else {
       window.location.href = `${BASE_URL}/${
-        adminView ? "admin/read/user/file" : "file"
+        isPublic ? "public/file" : adminView ? "admin/read/user/file" : "file"
       }/${id}`;
     }
   }
@@ -222,7 +264,11 @@ function DirectoryView({ adminView }) {
       setIsUploading(false);
       setUploadQueue([]);
       setTimeout(() => {
-        !adminView ? getDirectoryItems() : getUserDirData();
+        isPublic
+          ? getPublicDirData()
+          : !adminView
+          ? getDirectoryItems()
+          : getUserDirData();
       }, 1000);
       return;
     }
@@ -308,7 +354,11 @@ function DirectoryView({ adminView }) {
         }
       );
       await handleFetchErrors(response);
-      !adminView ? getDirectoryItems() : getUserDirData();
+      isPublic
+        ? getPublicDirData()
+        : !adminView
+        ? getDirectoryItems()
+        : getUserDirData();
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -327,7 +377,11 @@ function DirectoryView({ adminView }) {
         }
       );
       await handleFetchErrors(response);
-      !adminView ? getDirectoryItems() : getUserDirData();
+      isPublic
+        ? getPublicDirData()
+        : !adminView
+        ? getDirectoryItems()
+        : getUserDirData();
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -355,7 +409,11 @@ function DirectoryView({ adminView }) {
       await handleFetchErrors(response);
       setNewDirname("New Folder");
       setShowCreateDirModal(false);
-      !adminView ? getDirectoryItems() : getUserDirData();
+      isPublic
+        ? getPublicDirData()
+        : !adminView
+        ? getDirectoryItems()
+        : getUserDirData();
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -401,7 +459,11 @@ function DirectoryView({ adminView }) {
       setRenameValue("");
       setRenameType(null);
       setRenameId(null);
-      !adminView ? getDirectoryItems() : getUserDirData();
+      isPublic
+        ? getPublicDirData()
+        : !adminView
+        ? getDirectoryItems()
+        : getUserDirData();
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -437,6 +499,63 @@ function DirectoryView({ adminView }) {
     ...directoriesList.map((d) => ({ ...d, isDirectory: true })),
     ...filesList.map((f) => ({ ...f, isDirectory: false })),
   ];
+
+  const handleShareDirectory = async (item) => {
+    setErrorMessage("");
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/public/directory/${item.id}`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+      const data = await res.json();
+      if (res.status === 401) {
+        setErrorMessage(data.error);
+        return;
+      }
+      setPublicDirId(item.id);
+      setShowSharePopup(true);
+      isPublic
+        ? getPublicDirData()
+        : !adminView
+        ? getDirectoryItems()
+        : getUserDirData();
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
+
+  const handleUnpublicDirectory = async (item) => {
+    setErrorMessage("");
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/public/directory/${item.id}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+        }
+      );
+      const data = await res.json();
+      if (res.status === 401) {
+        setErrorMessage(data.error);
+        return;
+      }
+      isPublic
+        ? getPublicDirData()
+        : !adminView
+        ? getDirectoryItems()
+        : getUserDirData();
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
+
+  const handleShareFile = (item) => {};
+
+  const handleUnpublicFile = (item) => {};
+
   return (
     <div className="directory-view">
       {/* Top error message for general errors */}
@@ -495,6 +614,10 @@ function DirectoryView({ adminView }) {
         )
       ) : (
         <DirectoryList
+          handleUnpublicDirectory={handleUnpublicDirectory}
+          handleUnpublicFile={handleUnpublicFile}
+          handleShareDirectory={handleShareDirectory}
+          handleShareFile={handleShareFile}
           adminView={adminView}
           items={combinedItems}
           handleRowClick={handleRowClick}
@@ -511,6 +634,12 @@ function DirectoryView({ adminView }) {
           BASE_URL={BASE_URL}
         />
       )}
+
+      <SharePopUp
+        setShowSharePopup={setShowSharePopup}
+        showSharePopup={showSharePopup}
+        textToCopy={`http://localhost:5173/public/directory/${publicDirId}`}
+      />
     </div>
   );
 }

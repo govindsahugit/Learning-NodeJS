@@ -9,12 +9,12 @@ import {
 
 const router = express.Router();
 
-router.get("/admin/get/user/data/:id", isOwnerOrAdmin, readUserDirData);
+router.get("/get/user/data/:id", isOwnerOrAdmin, readUserDirData);
 
-router.post("/admin/create/user/dir/{:parentDirId}", isOwner, createUserDir);
+router.post("/create/user/dir/{:parentDirId}", isOwner, createUserDir);
 
-router.patch("/admin/rename/user/dir/:id", isOwner, renameUserDir);
+router.patch("/rename/user/dir/:id", isOwner, renameUserDir);
 
-router.delete("/admin/delete/user/dir/:id", isOwner, deleteUserDir);
+router.delete("/delete/user/dir/:id", isOwner, deleteUserDir);
 
 export default router;

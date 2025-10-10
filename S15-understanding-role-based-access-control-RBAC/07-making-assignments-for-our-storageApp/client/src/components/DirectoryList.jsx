@@ -15,6 +15,10 @@ function DirectoryList({
   openRenameModal,
   BASE_URL,
   adminView,
+  handleShareDirectory,
+  handleShareFile,
+  handleUnpublicFile,
+  handleUnpublicDirectory,
 }) {
   return (
     <div className="directory-list">
@@ -23,6 +27,10 @@ function DirectoryList({
 
         return (
           <DirectoryItem
+            handleUnpublicDirectory={handleUnpublicDirectory}
+            handleUnpublicFile={handleUnpublicFile}
+            handleShareDirectory={handleShareDirectory}
+            handleShareFile={handleShareFile}
             adminView={adminView}
             key={item.id}
             item={item}

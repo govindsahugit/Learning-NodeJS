@@ -21,6 +21,10 @@ const fileSchema = new Schema(
       type: String,
       required: true,
     },
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     strict: "throw",
