@@ -1,0 +1,1 @@
+- Explored Redis VS code extension
