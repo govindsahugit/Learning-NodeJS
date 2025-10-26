@@ -1,0 +1,25 @@
+{
+  "name": "06-storing-sensitive-info-in-dotenv-file",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch --env-file=.env app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "google-auth-library": "^10.3.1",
+    "mime-types": "^3.0.1",
+    "mongoose": "^8.18.0",
+    "redis": "^5.8.3",
+    "resend": "^6.1.0",
+    "zod": "^4.1.12"
+  }
+}
