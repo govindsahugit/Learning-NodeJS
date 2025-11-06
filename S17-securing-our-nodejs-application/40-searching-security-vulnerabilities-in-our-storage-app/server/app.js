@@ -10,6 +10,7 @@ import cors from "cors";
 import { CheckAuth } from "./middlewares/authMiddleware.js";
 import { connectDB } from "./config/db.js";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
 await connectDB();
 
@@ -22,6 +23,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(helmet());
 
 app.use(cookieParser(process.env.COOKIE_PARSER_SESSION_KEY));
 
