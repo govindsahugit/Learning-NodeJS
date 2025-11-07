@@ -6,15 +6,28 @@ import {
   renameUserFile,
   uploadUserFile,
 } from "../controllers/adminUserFileController.js";
+import { throttle } from "../utils/helpers.js";
+import { renameLimiter } from "../utils/limiter.js";
 
 const router = express.Router();
 
 router.get("/read/user/file/:id", isOwnerOrAdmin, readUserFile);
 
-router.post("/upload/user/file/{:parentDirId}", isOwner, uploadUserFile);
+router.post(
+  "/upload/user/file/{:parentDirId}",
+  throttle(2),
+  isOwner,
+  uploadUserFile
+);
 
 router.delete("/delete/user/file/:id", isOwner, deleteUserFile);
 
-router.patch("/rename/user/file/:id", isOwner, renameUserFile);
+router.patch(
+  "/rename/user/file/:id",
+  renameLimiter,
+  throttle(1),
+  isOwner,
+  renameUserFile
+);
 
 export default router;

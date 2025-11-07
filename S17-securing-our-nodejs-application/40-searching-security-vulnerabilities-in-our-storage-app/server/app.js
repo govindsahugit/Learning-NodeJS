@@ -11,6 +11,7 @@ import { CheckAuth } from "./middlewares/authMiddleware.js";
 import { connectDB } from "./config/db.js";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
+import { throttle } from "./utils/helpers.js";
 
 await connectDB();
 
@@ -19,7 +20,11 @@ const port = 4000;
 
 app.use(
   cors({
-    origin: ["http://192.168.1.10:5173", "http://localhost:5173"],
+    origin: [
+      "http://192.168.1.10:5173",
+      "http://localhost:5173",
+      "http://localhost:5500",
+    ],
     credentials: true,
   })
 );
