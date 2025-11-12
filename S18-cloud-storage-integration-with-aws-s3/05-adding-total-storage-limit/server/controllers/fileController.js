@@ -9,18 +9,37 @@ import {
   updateDirectoriesSize,
   validateDirectory,
 } from "../utils/directoryUtils.js";
+import User from "../models/userModel.js";
+import Directory from "../models/directoryModel.js";
 
 export const createFile = async (req, res, next) => {
   const filename = req.headers.filename || "untitled";
   const filesize = +req.headers.filesize;
   const parentDirId = req.params.parentDirId || req.user.rootDirId.toString();
 
-  // if (filesize > 50 * 1024 * 1024) {
-  //   console.log("File is too large!");
-  //   return req.destroy();
-  // }
+  if (filesize > 50 * 1024 * 1024) {
+    console.log("File is too large!");
+    return req.destroy();
+  }
 
   try {
+    const { maxStorageInBytes } = await User.findById(req.user._id)
+      .select("maxStorageInBytes -_id")
+      .lean();
+
+    const { size: usedStorageInBytes } = await Directory.findById(
+      req.user.rootDirId
+    )
+      .select("size -_id -userId")
+      .lean();
+
+    const availableSizeInBytes = maxStorageInBytes - usedStorageInBytes;
+
+    if (filesize > availableSizeInBytes) {
+      console.log("You do not have enough storage for this file!");
+      return req.destroy();
+    }
+
     const { directory: parentDir } = await validateDirectory(res, parentDirId);
 
     if (parentDir.userId.toString() !== req.user._id.toString())

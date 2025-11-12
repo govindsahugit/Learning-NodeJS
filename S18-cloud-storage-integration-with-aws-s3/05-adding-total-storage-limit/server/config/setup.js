@@ -42,7 +42,7 @@ try {
             bsonType: "number",
           },
           maxStorageInBytes: {
-            bsonType: "long",
+            bsonType: "number",
           },
         },
         additionalProperties: false,
@@ -66,7 +66,7 @@ try {
             description: "Name should be longer than three charators",
           },
           size: {
-            bsonType: "int",
+            bsonType: "number",
           },
           parentDirId: {
             bsonType: ["objectId", "null"],
@@ -105,7 +105,7 @@ try {
             description: "Name should be longer than three charator",
           },
           size: {
-            bsonType: "int",
+            bsonType: "number",
           },
           parentDirId: {
             bsonType: "objectId",

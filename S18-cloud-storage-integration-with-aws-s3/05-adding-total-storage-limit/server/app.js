@@ -52,7 +52,9 @@ app.use("/admin", CheckAuth, adminUserFileRoutes);
 app.use("/public", publicRoutes);
 
 app.use((err, req, res, next) => {
-  console.log(err);
+  console.log(
+    err.errInfo.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied[0].details
+  );
   return res.status(err.status || 500).json({
     error: "Something went wrong",
   });
