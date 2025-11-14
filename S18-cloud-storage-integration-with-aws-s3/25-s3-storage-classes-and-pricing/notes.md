@@ -1,0 +1,1 @@
+We have learned about aws billing, like how aws aws charges for their services.
