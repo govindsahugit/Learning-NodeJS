@@ -1,0 +1,1 @@
+We take a look at pricing for aws cloudfront service.
