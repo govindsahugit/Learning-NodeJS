@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@aws-sdk/cloudfront-signer": "^3.930.0"
+  }
+}
