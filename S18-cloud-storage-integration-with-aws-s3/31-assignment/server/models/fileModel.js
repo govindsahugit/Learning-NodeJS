@@ -1,0 +1,46 @@
+import { model, Schema } from "mongoose";
+
+const fileSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    size: {
+      type: Number,
+      required: true,
+    },
+    parentDirId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Directory",
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+      select: "name email",
+    },
+    extention: {
+      type: String,
+      required: true,
+    },
+    isUploading: {
+      type: Boolean,
+      default: true,
+    },
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    strict: "throw",
+    versionKey: false,
+    timestamps: true,
+  }
+);
+
+const File = model("File", fileSchema);
+
+export default File;
