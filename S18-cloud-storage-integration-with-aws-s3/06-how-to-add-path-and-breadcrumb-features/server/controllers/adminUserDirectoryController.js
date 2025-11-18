@@ -14,10 +14,12 @@ export const readUserDirData = async (req, res, next) => {
     const user = await User.findOne({ rootDirId: id }).lean();
 
     if (user)
-      if (req.user.role <= user?.role)
+      if (req.user.role < user?.role)
         return res.status(403).json({ error: "Access not allowed!" });
 
-    const dirData = await Directory.findById(id).lean();
+    const dirData = await Directory.findById(id)
+      .lean()
+      .populate("path", "name -userId");
 
     const directoryData = await getDirData(dirData, res);
 
@@ -38,7 +40,7 @@ export const createUserDir = async (req, res, next) => {
         error: "Directory not found!",
       });
 
-    const response = await createDir(req, res, parentDir.userId, parentDirId);
+    const response = await createDir(req, res, parentDir.userId, parentDirId, parentDir);
 
     return response;
   } catch (error) {

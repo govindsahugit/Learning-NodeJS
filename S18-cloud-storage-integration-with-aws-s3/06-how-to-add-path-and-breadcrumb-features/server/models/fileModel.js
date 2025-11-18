@@ -10,6 +10,12 @@ const fileSchema = new Schema(
       type: Number,
       required: true,
     },
+    path: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Directory",
+      },
+    ],
     parentDirId: {
       type: Schema.Types.ObjectId,
       required: true,

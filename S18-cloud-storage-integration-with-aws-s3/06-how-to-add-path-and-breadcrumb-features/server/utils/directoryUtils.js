@@ -18,6 +18,7 @@ export const getDirData = async (dirData, res) => {
   const files = await File.find({
     parentDirId: dirData._id,
   })
+    .populate("path", "name -userId")
     .lean()
     .sort({ name: 1 });
   return res.status(200).json({

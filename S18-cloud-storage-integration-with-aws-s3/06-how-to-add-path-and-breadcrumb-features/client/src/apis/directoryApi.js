@@ -1,4 +1,4 @@
-import { axiosWithCreds } from "./axiosInstances";
+import { axiosWithCreds, axiosWithoutCreds } from "./axiosInstances";
 
 export const getDirectoryItemsApi = async (dirId) => {
   const data = await axiosWithCreds.get(`/directory/${dirId || ""}`);
@@ -48,7 +48,7 @@ export const handlePublicDirectoryApi = async (item) => {
 };
 
 export const getPublicDirDataApi = async (dirId) => {
-  const data = await axiosWithCreds.get(`/public/directory/${dirId}`);
+  const data = await axiosWithoutCreds.get(`/public/directory/${dirId}`);
   return data;
 };
 

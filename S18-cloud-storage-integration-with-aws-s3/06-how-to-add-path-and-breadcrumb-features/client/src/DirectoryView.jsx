@@ -98,6 +98,8 @@ function DirectoryView({ adminView, isPublic }) {
 
       await handleFetchErrors(res);
 
+      setPath(data.path);
+
       // Set directory name
       setDirectoryName(dirId ? data.name : "My Drive");
 
@@ -530,6 +532,7 @@ function DirectoryView({ adminView, isPublic }) {
       )}
 
       <DirectoryHeader
+        isPublic={isPublic}
         path={path}
         directoryName={directoryName}
         onCreateFolderClick={() => setShowCreateDirModal(true)}
@@ -579,6 +582,7 @@ function DirectoryView({ adminView, isPublic }) {
         )
       ) : (
         <DirectoryList
+          isPublic={isPublic}
           openDetailsPopup={openDetailsPopup}
           handleUnpublicDirectory={handlePublicDirectory}
           handleUnpublicFile={handlePublicFile}

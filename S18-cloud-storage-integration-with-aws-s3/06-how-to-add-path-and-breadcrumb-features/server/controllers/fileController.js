@@ -51,7 +51,8 @@ export const createFile = async (req, res, next) => {
       req.user._id,
       filename,
       filesize,
-      parentDirId
+      parentDirId,
+      parentDir
     );
 
     await updateDirectoriesSize(parentDirId, filesize);

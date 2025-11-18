@@ -21,17 +21,18 @@ export const readUserFile = async (req, res, next) => {
 export const uploadUserFile = async (req, res, next) => {
   const filename = req.headers.filename || "untitled";
   const parentDirId = req.params.parentDirId;
+  const filesize = +req.headers.filesize;
   try {
     const { directory: parentDir } = await validateDirectory(res, parentDirId);
-
-    console.log(parentDir);
 
     const response = await uploadFile(
       req,
       res,
       parentDir.userId,
       filename,
-      parentDirId
+      filesize,
+      parentDirId,
+      parentDir
     );
 
     return response;

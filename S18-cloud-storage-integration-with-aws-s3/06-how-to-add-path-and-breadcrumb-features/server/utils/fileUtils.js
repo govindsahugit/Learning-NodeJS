@@ -36,7 +36,8 @@ export const uploadFile = async (
   userId,
   filename,
   filesize,
-  parentDirId
+  parentDirId,
+  parentDir
 ) => {
   const extention = extname(filename);
 
@@ -46,6 +47,7 @@ export const uploadFile = async (
     size: filesize,
     extention,
     userId: userId,
+    path: [...parentDir.path],
   });
 
   const fullFileName = `${insertFile._id.toString()}${extention}`;

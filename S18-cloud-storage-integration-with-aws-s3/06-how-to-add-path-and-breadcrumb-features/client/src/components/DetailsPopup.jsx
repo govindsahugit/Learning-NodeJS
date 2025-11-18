@@ -25,19 +25,19 @@ function DetailsPopup({ item, onClose }) {
   });
 
   const { name, isDirectory, createdAt, updatedAt, size } = item;
-  const { path, numberOfFiles, numberOfFolders } = details;
+  const { numberOfFiles, numberOfFolders } = details;
 
   const getPath = () => {
-    const path = item.path.map((p) => p.name);
+    const path = item?.path?.map((p) => p.name);
     let dirPath = "";
-    path.forEach((p, i) => {
-      dirPath += `${i === 0 ? (p.includes("root") ? "" : "") : `/${p}`}`;
+    path?.forEach((p, i) => {
+      dirPath += `${i === 0 ? "" : `/${p}`}`;
     });
+    if (!isDirectory) dirPath += `/${name}`;
     return dirPath;
   };
 
   useEffect(() => {
-    console.log(getPath());
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
     };
