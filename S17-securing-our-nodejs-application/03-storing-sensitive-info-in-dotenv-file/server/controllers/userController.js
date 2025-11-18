@@ -113,7 +113,7 @@ export const loginUser = async (req, res, next) => {
         error: "Invalid credentials!",
       });
 
-    const { sessionId } = await setSession(user);  
+    const { sessionId } = await setSession(user);
 
     const { total, sessionKeys } = await getUserSessions(user._id.toString());
     if (total > 2) await redisClient.del(sessionKeys[0]);

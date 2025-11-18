@@ -5,8 +5,8 @@ const s3Client = new S3Client({ profile: "nodejs" });
 
 const command = new PutObjectCommand({
   Bucket: "nodejs-storage-app",
-  Key: "pic.jpeg",
-  ContentType: "image/jpeg",
+  Key: "pic.png",
+  ContentType: "image/png",
 });
 
 const url = await getSignedUrl(s3Client, command, {
