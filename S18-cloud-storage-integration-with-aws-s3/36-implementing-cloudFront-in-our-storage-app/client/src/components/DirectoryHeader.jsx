@@ -10,6 +10,8 @@ import {
 import { fetchUserApi, logoutAllSessions, logoutUser } from "../apis/userApi";
 
 function DirectoryHeader({
+  directoryName,
+  isPublic,
   onCreateFolderClick,
   onUploadFilesClick,
   fileInputRef,
@@ -21,6 +23,7 @@ function DirectoryHeader({
   const [loggedIn, setLoggedIn] = useState(false);
   const [userName, setUserName] = useState("Guest User");
   const [userEmail, setUserEmail] = useState("guest@example.com");
+  const [userRole, setUserRole] = useState(0);
   const [userPicture, setUserPicture] = useState(null);
 
   const [maxStorageInBytes, setMaxStorageInBytes] = useState(1073741824);
@@ -41,6 +44,7 @@ function DirectoryHeader({
         const data = response.data;
         // Set user info if logged in
         setUserName(data.name);
+        setUserRole(data.role);
         setUserEmail(data.email);
         setUserPicture(data.picture);
         setMaxStorageInBytes(data.maxStorageInBytes);
@@ -68,7 +72,7 @@ function DirectoryHeader({
     }
   }
   useEffect(() => {
-    fetchUser();
+    !isPublic ? fetchUser() : null;
   }, []);
 
   // -------------------------------------------
@@ -138,6 +142,7 @@ function DirectoryHeader({
 
   return (
     <header className="directory-header">
+      {isPublic ? <h1>{directoryName}</h1> : <></>}
       <span id="bread-crumb">
         {path?.map((p) => (
           <span key={p._id} className="breadcrumb-item">
@@ -154,106 +159,116 @@ function DirectoryHeader({
           </span>
         ))}
       </span>
-      <div className="header-links">
-        {/* Create Folder (icon button) */}
-        <button
-          className="icon-button"
-          title="Create Folder"
-          onClick={onCreateFolderClick}
-          disabled={disabled}>
-          <FaFolderPlus />
-        </button>
-
-        {/* Upload Files (icon button) */}
-        <button
-          className="icon-button"
-          title="Upload Files"
-          onClick={onUploadFilesClick}
-          disabled={disabled}>
-          <FaUpload />
-        </button>
-
-        {/* Hidden file input */}
-        <input
-          ref={fileInputRef}
-          id="file-upload"
-          type="file"
-          style={{ display: "none" }}
-          // multiple
-          onChange={handleFileSelect}
-        />
-
-        {/* User Icon & Dropdown Menu */}
-        <div className="user-menu-container" ref={userMenuRef}>
+      {!isPublic ? (
+        <div className="header-links">
+          {/* Create Folder (icon button) */}
           <button
             className="icon-button"
-            title="User Menu"
-            onClick={handleUserIconClick}>
-            {!userPicture ? (
-              <FaUser />
-            ) : (
-              <div id="profile-pic">
-                <img src={`${userPicture}`} alt="Profile" />
-              </div>
-            )}
+            title="Create Folder"
+            onClick={onCreateFolderClick}
+            disabled={disabled}>
+            <FaFolderPlus />
           </button>
 
-          {showUserMenu && (
-            <div className="user-menu">
-              {loggedIn ? (
-                <>
-                  {/* Display name & email if logged in */}
-                  <div className="user-menu-item user-info">
-                    <span className="user-name">{userName}</span>
-                    <span className="user-email">{userEmail}</span>
-                    <div className="w-40 h-1 bg-gray-300 rounded-full overflow-hidden mb-1">
-                      <div
-                        className="bg-blue-500 rounded-full h-full"
-                        style={{ width: `${(usedGB / totalGB) * 100}%` }}></div>
-                    </div>
-                    <div className="text-xs">
-                      {usedGB.toFixed(2)} GB of {totalGB} GB used
-                    </div>
-                  </div>
-                  <div className="user-menu-divider" />
-                  <Link
-                    to={"/users"}
-                    className="user-menu-item login-btn"
-                    style={{ color: "#000" }}>
-                    <FaSignOutAlt className="menu-item-icon" />
-                    <span>Users</span>
-                  </Link>
-                  <div
-                    className="user-menu-item login-btn"
-                    onClick={handleLogout}>
-                    <FaSignOutAlt className="menu-item-icon" />
-                    <span>Logout</span>
-                  </div>
-                  <div
-                    className="user-menu-item login-btn"
-                    onClick={handleLogoutAll}>
-                    <FaSignOutAlt className="menu-item-icon" />
-                    <span>Logout All</span>
-                  </div>
-                </>
+          {/* Upload Files (icon button) */}
+          <button
+            className="icon-button"
+            title="Upload Files"
+            onClick={onUploadFilesClick}
+            disabled={disabled}>
+            <FaUpload />
+          </button>
+
+          {/* Hidden file input */}
+          <input
+            ref={fileInputRef}
+            id="file-upload"
+            type="file"
+            style={{ display: "none" }}
+            // multiple
+            onChange={handleFileSelect}
+          />
+
+          {/* User Icon & Dropdown Menu */}
+          <div className="user-menu-container" ref={userMenuRef}>
+            <button
+              className="icon-button"
+              title="User Menu"
+              onClick={handleUserIconClick}>
+              {!userPicture ? (
+                <FaUser />
               ) : (
-                <>
-                  {/* Show Login if not logged in */}
-                  <div
-                    className="user-menu-item login-btn"
-                    onClick={() => {
-                      navigate("/login");
-                      setShowUserMenu(false);
-                    }}>
-                    <FaSignInAlt className="menu-item-icon" />
-                    <span>Login</span>
-                  </div>
-                </>
+                <div id="profile-pic">
+                  <img src={`${userPicture}`} alt="Profile" />
+                </div>
               )}
-            </div>
-          )}
+            </button>
+
+            {showUserMenu && (
+              <div className="user-menu">
+                {loggedIn ? (
+                  <>
+                    {/* Display name & email if logged in */}
+                    <div className="user-menu-item user-info">
+                      <span className="user-name">{userName}</span>
+                      <span className="user-email">{userEmail}</span>
+                      <div className="w-40 h-1 bg-gray-300 rounded-full overflow-hidden mb-1">
+                        <div
+                          className="bg-blue-500 rounded-full h-full"
+                          style={{
+                            width: `${(usedGB / totalGB) * 100}%`,
+                          }}></div>
+                      </div>
+                      <div className="text-xs">
+                        {usedGB.toFixed(2)} GB of {totalGB} GB used
+                      </div>
+                    </div>
+                    <div className="user-menu-divider" />
+                    {userRole > 0 ? (
+                      <Link
+                        to={`/users`}
+                        className="user-menu-item login-btn"
+                        style={{ color: "#000" }}>
+                        <FaSignOutAlt className="menu-item-icon" />
+                        <span>Users</span>
+                      </Link>
+                    ) : (
+                      <></>
+                    )}
+                    <div
+                      className="user-menu-item login-btn"
+                      onClick={handleLogout}>
+                      <FaSignOutAlt className="menu-item-icon" />
+                      <span>Logout</span>
+                    </div>
+                    <div
+                      className="user-menu-item login-btn"
+                      onClick={handleLogoutAll}>
+                      <FaSignOutAlt className="menu-item-icon" />
+                      <span>Logout All</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {/* Show Login if not logged in */}
+                    <div
+                      className="user-menu-item login-btn"
+                      onClick={() => {
+                        navigate("/login");
+                        setShowUserMenu(false);
+                      }}>
+                      <FaSignInAlt className="menu-item-icon" />
+                      <span>Login</span>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </header>
   );
 }

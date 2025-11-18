@@ -24,6 +24,8 @@ function DirectoryView({ adminView, isPublic }) {
   const { dirId } = useParams();
   const navigate = useNavigate();
 
+  const [directoryName, setDirectoryName] = useState("My Drive");
+
   // Lists of items
   const [directoriesList, setDirectoriesList] = useState([]);
   const [filesList, setFilesList] = useState([]);
@@ -97,6 +99,8 @@ function DirectoryView({ adminView, isPublic }) {
       await handleFetchErrors(res);
       setPath(data.path);
 
+      setDirectoryName(dirId ? data.name : "My Drive");
+
       // Reverse directories and files so new items show on top
       setDirectoriesList([...data.directories]);
       setFilesList([...data.files]);
@@ -119,6 +123,8 @@ function DirectoryView({ adminView, isPublic }) {
       const data = response.data;
       setPath(data.path);
 
+      setDirectoryName(dirId ? data.name : "My Drive");
+
       // Reverse directories and files so new items show on top
       setDirectoriesList([...data.directories]);
       setFilesList([...data.files]);
@@ -140,6 +146,8 @@ function DirectoryView({ adminView, isPublic }) {
       }
 
       await handleFetchErrors(res);
+
+      setDirectoryName(dirId ? data.name : "My Drive");
 
       // Reverse directories and files so new items show on top
       setDirectoriesList([...data.directories]);
@@ -541,7 +549,9 @@ function DirectoryView({ adminView, isPublic }) {
       )}
 
       <DirectoryHeader
+        isPublic={isPublic}
         path={path}
+        directoryName={directoryName}
         onCreateFolderClick={() => setShowCreateDirModal(true)}
         onUploadFilesClick={() => fileInputRef.current.click()}
         fileInputRef={fileInputRef}
@@ -589,6 +599,7 @@ function DirectoryView({ adminView, isPublic }) {
         )
       ) : (
         <DirectoryList
+          isPublic={isPublic}
           openDetailsPopup={openDetailsPopup}
           handleUnpublicDirectory={handlePublicDirectory}
           handleUnpublicFile={handlePublicFile}

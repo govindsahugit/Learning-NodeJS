@@ -20,6 +20,7 @@ function DirectoryList({
   handleUnpublicFile,
   handleUnpublicDirectory,
   openDetailsPopup,
+  isPublic,
 }) {
   return (
     <div className="directory-list">
@@ -28,6 +29,7 @@ function DirectoryList({
 
         return (
           <DirectoryItem
+            isPublic={isPublic}
             openDetailsPopup={openDetailsPopup}
             handleUnpublicDirectory={handleUnpublicDirectory}
             handleUnpublicFile={handleUnpublicFile}

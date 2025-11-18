@@ -31,6 +31,7 @@ function DirectoryItem({
   handleUnpublicDirectory,
   handleUnpublicFile,
   openDetailsPopup,
+  isPublic,
 }) {
   // Convert the file icon string to the actual Icon component
   function renderFileIcon(iconString) {
@@ -98,24 +99,27 @@ function DirectoryItem({
       )}
 
       {/* Context menu, if active */}
-      {activeContextMenu === item.id && (
-        <ContextMenu
-          openDetailsPopup={openDetailsPopup}
-          handleUnpublicDirectory={handleUnpublicDirectory}
-          handleUnpublicFile={handleUnpublicFile}
-          handleShareDirectory={handleShareDirectory}
-          handleShareFile={handleShareFile}
-          adminView={adminView}
-          item={item}
-          contextMenuPos={contextMenuPos}
-          isUploadingItem={isUploadingItem}
-          handleCancelUpload={handleCancelUpload}
-          handleDeleteFile={handleDeleteFile}
-          handleDeleteDirectory={handleDeleteDirectory}
-          openRenameModal={openRenameModal}
-          BASE_URL={BASE_URL}
-        />
-      )}
+      {activeContextMenu === item.id &&
+        (!isPublic ? (
+          <ContextMenu
+            openDetailsPopup={openDetailsPopup}
+            handleUnpublicDirectory={handleUnpublicDirectory}
+            handleUnpublicFile={handleUnpublicFile}
+            handleShareDirectory={handleShareDirectory}
+            handleShareFile={handleShareFile}
+            adminView={adminView}
+            item={item}
+            contextMenuPos={contextMenuPos}
+            isUploadingItem={isUploadingItem}
+            handleCancelUpload={handleCancelUpload}
+            handleDeleteFile={handleDeleteFile}
+            handleDeleteDirectory={handleDeleteDirectory}
+            openRenameModal={openRenameModal}
+            BASE_URL={BASE_URL}
+          />
+        ) : (
+          <></>
+        ))}
     </div>
   );
 }
