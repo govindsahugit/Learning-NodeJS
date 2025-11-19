@@ -1,0 +1,1 @@
+we enabled international payments in rayzorpay by using paypal
