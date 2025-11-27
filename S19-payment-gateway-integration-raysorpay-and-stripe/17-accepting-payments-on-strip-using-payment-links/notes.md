@@ -1,0 +1,1 @@
+We understood how stripe works for payment in depth.
