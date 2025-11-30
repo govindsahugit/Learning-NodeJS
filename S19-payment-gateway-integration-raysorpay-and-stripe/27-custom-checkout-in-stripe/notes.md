@@ -1,0 +1,1 @@
+we explored custom checkout for stripe.
