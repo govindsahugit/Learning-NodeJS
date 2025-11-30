@@ -6,7 +6,7 @@ import Stripe from "stripe";
 import { writeFile } from "fs/promises";
 
 const stripe = new Stripe(
-  "sk_test_51S4jNjQejmbJMlIqUDvF3TW4CgWn8ZJIl3Tqy2hDrDqqFunw5wkXCooIUgcn2Ve5tQRqrgw57gxqAyxoornA0JVC00lUecGsxU"
+  "secret-key"
 );
 
 const app = express();

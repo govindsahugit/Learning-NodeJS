@@ -3,7 +3,7 @@ import courses from "./courses.json" with { type: "json" };
 import cors from "cors";
 import Stripe from 'stripe';
 
-const stripe = new Stripe('sk_test_51SV4qOLKpJbunV8x2zmeM1sDIB2Ll7GGkrdOanCHMJDB3ZAz0AU0y506A4JuoItVAaSDtHJRNViFRnke5CAC6pFG00GyyB0TCK')
+const stripe = new Stripe('secret-key')
 
 const app = express();
 app.use(
