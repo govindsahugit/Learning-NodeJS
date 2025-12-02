@@ -1,0 +1,12 @@
+[
+  {
+    "sessionId": "cs_test_a1jnfbeMnGt9HRdxPs9UVPQdGnSNgNT9kXrPWMWTKqIWiHueehbqZ6izm5",
+    "userName": "Anurag Singh",
+    "userMobile": "9876543111",
+    "paymentStatus": "paid",
+    "url": "https://checkout.stripe.com/c/pay/cs_test_a1jnfbeMnGt9HRdxPs9UVPQdGnSNgNT9kXrPWMWTKqIWiHueehbqZ6izm5#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdkdWxOYHwnPyd1blpxYHZxWjA0VlMxdEpJTnVPZ3BrUz19bDxDTXBAbjVfUzFXMmt2NGZrQzNET1N3UHJBajVTUWxMMzJ9fDxfS2JmUDdybmpLVlVfMHdpcDFwMUF3TjBhM0dLMF9LQnZXNTVcX0w0ajFHXCcpJ2N3amhWYHdzYHcnP3F3cGApJ2dkZm5id2pwa2FGamlqdyc%2FJyZjY2NjY2MnKSdpZHxqcHFRfHVgJz8ndmxrYmlgWmxxYGgnKSdga2RnaWBVaWRmYG1qaWFgd3YnP3F3cGB4JSUl",
+    "courseId": "64fa1c9e3b7d92001c4a7f21",
+    "updatedByWebhook": true,
+    "updatedByFrontend": true
+  }
+]
