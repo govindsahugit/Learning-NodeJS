@@ -1,0 +1,1 @@
+we deployed frontend in versail and backend in render.com
