@@ -1,0 +1,1 @@
+we create EC2 intance in aws to deploy our nodejs server.
