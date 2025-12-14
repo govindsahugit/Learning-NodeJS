@@ -1,0 +1,1 @@
+we learned location directive in nginx.conf
