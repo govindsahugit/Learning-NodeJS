@@ -1,0 +1,1 @@
+we use nginx as a reverse proxy to run node applications in same ip and port.
