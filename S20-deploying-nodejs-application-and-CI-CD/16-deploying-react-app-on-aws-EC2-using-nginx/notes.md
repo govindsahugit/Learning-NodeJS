@@ -1,0 +1,1 @@
+we deployed our react frontend using nginx.
