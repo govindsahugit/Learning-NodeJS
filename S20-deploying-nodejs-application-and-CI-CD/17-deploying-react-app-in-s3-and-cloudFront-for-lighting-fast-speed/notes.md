@@ -1,0 +1,1 @@
+Nothing to note if you have forgot what you have learned in aws don't worry just go and revise it. Its simple.
