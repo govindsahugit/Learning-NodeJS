@@ -1,0 +1,1 @@
+Nothing to notes. You can watch the lecture if you want https://app.procodrr.com/web/courses/66c89b1104aec61c27d12b08?chapter=6913445e804188d61b2886f0
