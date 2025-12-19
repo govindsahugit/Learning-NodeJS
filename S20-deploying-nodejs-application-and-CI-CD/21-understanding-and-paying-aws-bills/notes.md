@@ -1,0 +1,1 @@
+Nothing to note here. We learned how to manage and analize our aws bills
