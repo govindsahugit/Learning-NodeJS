@@ -1,0 +1,30 @@
+name: My first workflow
+on: [push, workflow_dispatch]
+
+env:
+  GLOBAL: "Global Env"
+
+jobs:
+  my-first-job:
+    env:
+      TEST: "My test variable from Job"
+      HI: "Hello"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        env:
+          TEST: "My test variable from step"
+          HELLO: "Hello World"
+        run: echo "${{toJson(github.token)}}"
+
+      - run: echo "${{toJson(vars)}}"
+      - run: echo "${{toJson(secrets.GITHUB_TOKEN)}}"
+      - run: echo "${{toJson(runner)}}"
+      - run: echo "${{toJson(env.TEST)}}"
+  my-second-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{toJson(env)}}"
+      - run: echo "${{toJson(vars)}}"
+      - run: echo "${{toJson(secrets)}}"
+      - run: echo "${{toJson(runner)}}"
