@@ -1,0 +1,30 @@
+name: Deploy StorageApp Frontend
+on: [push, workflow_dispatch]
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone GitHub Repository
+        uses: actions/checkout@v6
+      - run: npm ci --no-audit --no-fund
+      - run: npm run test
+      - run: npm run build
+      - run: ls -a
+
+      - name: Install AWS CLI
+        run: sudo apt update
+      - run: sudo apt install -y curl unzip
+      - run: curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - run: unzip awscliv2.zip
+      - run: aws --version
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - run: aws s3 sync "$/home/runner/work/StorageApp-Frontend/StorageApp-Frontend/dist" s3://storage-app-frontend --delete
+      - run: aws cloudfront create-invalidation --distribution-id ET2RX5F4BTHHS --paths "/index.html"
