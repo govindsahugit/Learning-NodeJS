@@ -1,0 +1,13 @@
+name: My First Workflow 
+on: 
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  my-prod-job:
+    environment: ${{ github.ref_name == 'main' && 'PROD' || 'TEST' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{vars.APP_URL}}
