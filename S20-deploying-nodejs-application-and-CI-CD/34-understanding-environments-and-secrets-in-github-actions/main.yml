@@ -1,0 +1,20 @@
+name: My First Workflow
+on: push
+
+jobs:
+  my-prod-job:
+    environment: PROD
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{secrets.MY_AWS_SECRET}}
+      - run: echo ${{vars.APP_URL}}
+      - run: echo ${{github.token}}
+      - run: echo ${{secrets.GITHUB_TOKEN}}
+      - run: echo ${{secrets.GITHUB_TOKEN == github.token}}
+
+  my-test-job:
+    environment: TEST
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{toJson(secrets.MY_AWS_SECRET)}}"
+      - run: echo "${{toJson(vars.APP_URL)}}"
