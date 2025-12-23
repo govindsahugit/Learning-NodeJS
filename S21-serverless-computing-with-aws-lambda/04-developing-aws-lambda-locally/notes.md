@@ -1,0 +1,1 @@
+Nothing to note here. We connected our aws on vs code to use lambda function.
