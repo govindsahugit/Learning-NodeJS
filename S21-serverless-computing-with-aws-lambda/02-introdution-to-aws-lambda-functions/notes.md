@@ -1,0 +1,1 @@
+Nothing to note. We created our first Lambda function.
