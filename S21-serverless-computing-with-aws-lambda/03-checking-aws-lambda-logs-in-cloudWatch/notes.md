@@ -1,0 +1,1 @@
+Nothing to note. We just explored AWS CloudWatch service to moniter logs of our application.
