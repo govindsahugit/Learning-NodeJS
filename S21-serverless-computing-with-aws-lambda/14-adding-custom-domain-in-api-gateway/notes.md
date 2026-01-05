@@ -1,0 +1,1 @@
+Nothing to note here. We added a custom domain in our api gateway url.
