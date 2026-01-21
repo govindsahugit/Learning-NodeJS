@@ -1,0 +1,1 @@
+- We increase RAM of lambda function. And learned by playing with RAM and configuration timeout of Lambda Function.
