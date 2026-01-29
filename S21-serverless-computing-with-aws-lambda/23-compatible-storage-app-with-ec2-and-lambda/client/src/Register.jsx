@@ -4,15 +4,16 @@ import { GoogleLogin } from "@react-oauth/google";
 import "./Auth.css";
 import { sendIdToken } from "./apis/googleAuthApis.js";
 import { registerUser, sendOtp, verifyOtp } from "./apis/authApi.js";
+import { useUser } from "./context/UserContext.jsx";
 
 const Register = () => {
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
+
+  const user = useUser();
 
   const [serverError, setServerError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
@@ -130,6 +131,10 @@ const Register = () => {
     }
   };
 
+  useEffect(() => {
+    if (user.error === null) navigate("/");
+  }, []);
+
   return (
     <div className="container">
       <h2 className="heading">Register</h2>
@@ -175,8 +180,8 @@ const Register = () => {
               {isSending
                 ? "Sending..."
                 : countdown > 0
-                ? `${countdown}s`
-                : "Send OTP"}
+                  ? `${countdown}s`
+                  : "Send OTP"}
             </button>
           </div>
           {serverError && <span className="error-msg">{serverError}</span>}
@@ -208,8 +213,8 @@ const Register = () => {
                 {isVerifying
                   ? "Verifying..."
                   : otpVerified
-                  ? "Verified"
-                  : "Verify OTP"}
+                    ? "Verified"
+                    : "Verify OTP"}
               </button>
             </div>
             {otpError && <span className="error-msg">{otpError}</span>}
@@ -256,7 +261,7 @@ const Register = () => {
               credentialResponse.credential,
               routeUrl,
               navigate,
-              setServerError
+              setServerError,
             );
           }}
           onError={() => {

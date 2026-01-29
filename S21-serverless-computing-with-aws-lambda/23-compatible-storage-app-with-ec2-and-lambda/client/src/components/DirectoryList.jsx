@@ -20,16 +20,16 @@ function DirectoryList({
   handleUnpublicFile,
   handleUnpublicDirectory,
   openDetailsPopup,
-  isPublic,
+  isPublic
 }) {
   return (
     <div className="directory-list">
       {items.map((item) => {
         const uploadProgress = progressMap[item.id] || 0;
 
-        return item?.isUploading ? null : (
+        return (
           <DirectoryItem
-            isPublic={isPublic}
+            isPublic={isPublic}          
             openDetailsPopup={openDetailsPopup}
             handleUnpublicDirectory={handleUnpublicDirectory}
             handleUnpublicFile={handleUnpublicFile}

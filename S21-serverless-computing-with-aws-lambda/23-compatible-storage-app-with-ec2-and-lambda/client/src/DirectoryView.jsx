@@ -503,7 +503,9 @@ function DirectoryView({ adminView, isPublic }) {
         setErrorMessage(data.error);
         return;
       }
-      setPublicPath(`http://localhost:5173/public/directory/${item.id}`);
+      setPublicPath(
+        `${import.meta.env.VITE_APP_URL}/public/directory/${item.id}`,
+      );
       item.isPublic ? setShowSharePopup(false) : setShowSharePopup(true);
       isPublic
         ? getPublicDirData()

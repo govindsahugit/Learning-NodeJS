@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import "./Auth.css";
 import { sendIdToken } from "./apis/googleAuthApis.js";
 import { loginUser, sendOtp, verifyOtp } from "./apis/authApi.js";
+import { useUser } from "./context/UserContext.jsx";
 
 const Login = () => {
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const user = useUser();
 
   // serverError will hold the error message from the server
   const [serverError, setServerError] = useState("");
@@ -127,6 +128,10 @@ const Login = () => {
   // If there's an error, we'll add "input-error" class to both fields
   const hasError = Boolean(serverError);
 
+  useEffect(() => {
+    if (user.error === null) navigate("/");
+  }, []);
+
   return (
     <div className="container">
       <h2 className="heading">Login</h2>
@@ -155,8 +160,8 @@ const Login = () => {
               {isSending
                 ? "Sending..."
                 : countdown > 0
-                ? `${countdown}s`
-                : "Send OTP"}
+                  ? `${countdown}s`
+                  : "Send OTP"}
             </button>
           </div>
           {otpError
@@ -190,8 +195,8 @@ const Login = () => {
                 {isVerifying
                   ? "Verifying..."
                   : otpVerified
-                  ? "Verified"
-                  : "Verify OTP"}
+                    ? "Verified"
+                    : "Verify OTP"}
               </button>
             </div>
             {otpError && <span className="error-msg">{otpError}</span>}
@@ -240,7 +245,7 @@ const Login = () => {
               credentialResponse.credential,
               routeUrl,
               navigate,
-              setServerError
+              setServerError,
             );
           }}
           onError={() => {

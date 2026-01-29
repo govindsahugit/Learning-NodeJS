@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getDirectoryItemsApi } from "./apis/subscriptionApi";
 
 const PLAN_CATALOG = {
   monthly: [
     {
-      id: "plan_RpkRbZ15VUKwVv",
+      id: "plan_S8wfYi15eCR8zL",
       name: "Starter",
       tagline: "Great for individuals",
-      storage: "2 TB",
+      storage: "2 GB",
       price: 199,
       period: "/mo",
-      cta: "Choose 2 TB",
+      cta: "Choose 2 GB",
       features: [
         "Secure cloud storage",
         "Link & folder sharing",
@@ -20,37 +20,37 @@ const PLAN_CATALOG = {
       popular: false,
     },
     {
-      id: "plan_RpkUZZBhfeRzIu",
+      id: "plan_S8wkQjs5WgcfEW",
       name: "Pro",
       tagline: "For creators & devs",
-      storage: "5 TB",
+      storage: "5 GB",
       price: 399,
       period: "/mo",
-      cta: "Choose 5 TB",
+      cta: "Choose 5 GB",
       features: ["Everything in Starter", "Priority uploads", "Email support"],
       popular: true,
     },
     {
-      id: "plan_RpkWmbpbzTwJ5a",
+      id: "plan_S8wls3JKqs516M",
       name: "Ultimate",
       tagline: "Teams & power users",
-      storage: "10 TB",
+      storage: "10 GB",
       price: 699,
       period: "/mo",
-      cta: "Choose 10 TB",
+      cta: "Choose 10 GB",
       features: ["Everything in Pro", "Version history", "Priority support"],
       popular: false,
     },
   ],
   yearly: [
     {
-      id: "plan_RpkT5YPxO8Xepy",
+      id: "plan_S8wpuHAaQpzWi2",
       name: "Starter",
       tagline: "Great for individuals",
-      storage: "2 TB",
+      storage: "2 GB",
       price: 1999,
       period: "/yr",
-      cta: "Choose 2 TB",
+      cta: "Choose 2 GB",
       features: [
         "Secure cloud storage",
         "Link & folder sharing",
@@ -59,24 +59,24 @@ const PLAN_CATALOG = {
       popular: false,
     },
     {
-      id: "plan_RpkVvNRxSrioHR",
+      id: "plan_S8wsxGtrzqGL3d",
       name: "Pro",
       tagline: "For creators & devs",
-      storage: "5 TB",
+      storage: "5 GB",
       price: 3999,
       period: "/yr",
-      cta: "Choose 5 TB",
+      cta: "Choose 5 GB",
       features: ["Everything in Starter", "Priority uploads", "Email support"],
       popular: true,
     },
     {
-      id: "plan_RpkXniI9bBu7dG",
+      id: "plan_S8wtzbeNBj5Q17",
       name: "Ultimate",
       tagline: "Teams & power users",
-      storage: "10 TB",
+      storage: "10 GB",
       price: 6999,
       period: "/yr",
-      cta: "Choose 10 TB",
+      cta: "Choose 10 GB",
       features: ["Everything in Pro", "Version history", "Priority support"],
       popular: false,
     },
@@ -106,7 +106,7 @@ function PlanCard({ plan, onSelect }) {
         "hover:shadow-md",
         plan.popular
           ? "border-blue-500/60 ring-1 ring-blue-500/20"
-          : "border-slate-200"
+          : "border-slate-200",
       )}>
       {plan.popular && (
         <div className="absolute -top-2 right-4 select-none rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white shadow">
@@ -155,7 +155,7 @@ function PlanCard({ plan, onSelect }) {
           "mt-auto cursor-pointer inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-offset-2",
           plan.popular
             ? "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-600"
-            : "bg-slate-900 text-white hover:bg-slate-800 focus:ring-slate-900"
+            : "bg-slate-900 text-white hover:bg-slate-800 focus:ring-slate-900",
         )}>
         {plan.cta}
       </button>
@@ -166,11 +166,16 @@ function PlanCard({ plan, onSelect }) {
 export default function Plans() {
   const [mode, setMode] = useState("monthly");
   const plans = PLAN_CATALOG[mode];
+  const navigate = useNavigate();
 
   async function handleSelect(plan) {
-    const { subscriptionId } = await getDirectoryItemsApi(plan.id);
-    console.log(subscriptionId);
-    openRazorpayPopup({ subscriptionId });
+    try {
+      const res = await getDirectoryItemsApi(plan.id);
+      openRazorpayPopup({ subscriptionId: res.data.subscriptionId });
+    } catch (error) {
+      console.log(error);
+      if (error.status === 401) navigate("/login");
+    }
   }
 
   useEffect(() => {
@@ -198,7 +203,7 @@ export default function Plans() {
           onClick={() => setMode("monthly")}
           className={classNames(
             "rounded-lg px-4 py-2 text-sm font-medium border-2 cursor-pointer",
-            mode === "monthly" ? "border-blue-500" : "border-white"
+            mode === "monthly" ? "border-blue-500" : "border-white",
           )}>
           Monthly
         </button>
@@ -206,7 +211,7 @@ export default function Plans() {
           onClick={() => setMode("yearly")}
           className={classNames(
             "rounded-lg px-4 py-2 text-sm font-medium border-2 cursor-pointer",
-            mode === "yearly" ? "border-blue-500" : "border-white"
+            mode === "yearly" ? "border-blue-500" : "border-white",
           )}>
           Yearly{" "}
           <span className="ml-1 hidden text-xs text-blue-600 sm:inline">
@@ -237,18 +242,9 @@ export default function Plans() {
 
 function openRazorpayPopup({ subscriptionId }) {
   const rzp = new Razorpay({
-    key: "rzp_test_RhoyP50kyYLgAi",
-    description: "My first test payment.",
+    description: "Thanks for choosing StorageApp.",
     name: "StorageApp",
     subscription_id: subscriptionId,
-    prefill: {
-      // name: user.name,
-      // contact: user.mobile,
-    },
-    notes: {
-      // courseId: course.id,
-      // courseName: course.name,
-    },
     handler: async function (response) {
       console.log(response);
     },

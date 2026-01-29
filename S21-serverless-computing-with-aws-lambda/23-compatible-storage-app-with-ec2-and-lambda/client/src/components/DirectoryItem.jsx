@@ -63,27 +63,30 @@ function DirectoryItem({
           : null
       }
       onContextMenu={(e) => handleContextMenu(e, item.id)}>
-      <div
-        className="item-left-container"
-        title={`Size: ${formatSize(item.size)}\nCreated At: ${new Date(
-          item?.createdAt,
-        ).toLocaleString()}`}>
-        <div className="item-left">
-          {item.isDirectory ? (
-            <FaFolder className="folder-icon" />
-          ) : (
-            renderFileIcon(getFileIcon(item.name))
-          )}
-          <span>{item.name}</span>
-        </div>
-
-        {/* Three dots for context menu */}
+      {!item?.isUploading ? (
         <div
-          className="context-menu-trigger"
-          onClick={(e) => handleContextMenu(e, item.id)}>
-          <BsThreeDotsVertical />
+          className="item-left-container"
+          title={`Size: ${formatSize(item.size)}\nCreated At: ${new Date(
+            item?.createdAt,
+          ).toLocaleString()}`}>
+          <div className="item-left">
+            {item.isDirectory ? (
+              <FaFolder className="folder-icon" />
+            ) : (
+              renderFileIcon(getFileIcon(item.name))
+            )}
+            <span>{item.name}</span>
+          </div>
+
+          {/* Three dots for context menu */}
+          <div
+            className="context-menu-trigger"
+            onClick={(e) => handleContextMenu(e, item.id)}>
+            <BsThreeDotsVertical />
+          </div>
         </div>
-      </div>
+      ) : null}
+
       {/* PROGRESS BAR: shown if an item is in queue or actively uploading */}
       {isUploadingItem && (
         <div className="progress-container">
