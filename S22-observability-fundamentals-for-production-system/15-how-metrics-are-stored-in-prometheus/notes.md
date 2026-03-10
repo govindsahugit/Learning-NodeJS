@@ -7,7 +7,7 @@ Prometheus uses a custom-built **Time Series Database (TSDB)** instead of tradit
 ### Core Concepts
 
 - **Time Series Data**: Data stored as a stream of timestamped values
-- **Unique Identifier**: Each series identified by `Metric Name + Labels`
+- **Unique Identifier**: Each series identified by `metricName + labels + type + timestamp `
   - Example: `http_requests_total{method="POST", status="200"}`
 - **Data Point**: Each sample contains a `float64` value and millisecond-precision timestamp
 

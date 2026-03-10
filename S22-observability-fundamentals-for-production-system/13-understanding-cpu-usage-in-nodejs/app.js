@@ -48,7 +48,6 @@ app.get("/user-cpu", (req, res) => {
   while (performance.now() - start < 5000) {
     Math.sqrt(Math.random());
   }
-
   res.json({ ok: true });
 });
 
@@ -62,6 +61,17 @@ app.get("/system-cpu", (req, res) => {
   res.json({
     message: "Heavy sync file IO done",
   });
+});
+
+const { user, system } = process.cpuUsage();
+let lastCpuUsage = (user + system) / 1000;
+app.get("/cpu-usage-p", (req, res) => {
+  const { user, system } = process.cpuUsage();
+  const totalCpuUsage = (user + system) / 1000;
+  const currentCpuUsage = totalCpuUsage - lastCpuUsage;
+  const cpuUsageInPercentage = currentCpuUsage / 20 / 12;
+  lastCpuUsage = totalCpuUsage;
+  res.json({ cpuUsageInPercentage: `${cpuUsageInPercentage}%` });
 });
 
 app.get("/cpu-usage", (req, res) => {
