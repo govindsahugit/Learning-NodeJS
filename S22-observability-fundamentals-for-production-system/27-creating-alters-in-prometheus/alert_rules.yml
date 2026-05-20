@@ -1,0 +1,22 @@
+groups:
+  - name: express-app
+    rules:
+      - alert: HighErrorRate
+        expr: sum(rate(http_requests_total{status=~"4..|5.."}[1m])) / sum(rate(http_requests_total[1m])) * 100 > 5
+        for: 5s
+        labels:
+          severity: critical
+          hi: Hello
+        annotations:
+          description: The error rate has increase above 5%.
+
+      - alert: HighCPUUsage
+        expr: rate(process_cpu_seconds_total[1m]) * 100 > 90
+        for: 5s
+        annotations:
+          description: CPU Usage has increase above 90%.
+
+  - name: python-app
+    rules:
+      - alert: HighErrorRatePython
+        expr: sum(rate(http_requests_total{status=~"4..|5.."}[1m])) / sum(rate(http_requests_total[1m])) * 100 > 500
