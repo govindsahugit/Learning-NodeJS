@@ -1,0 +1,1 @@
+Nothing to note here for this lecture.
