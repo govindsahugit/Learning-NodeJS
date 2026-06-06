@@ -1,0 +1,72 @@
+// Read log lines from a specific file on disk.
+loki.source.file "app_log" {
+  targets = [
+    {
+      // Absolute path of the log file to watch.
+      __path__ = "F:/Web Development/BACKEND DEVELOPMENT/Backend with Procodrr/S22-observability-fundamentals-for-production-system/46-sending-express-app-logs-to-loki/logs/app.log",
+
+      // Static labels attached to every log line from this source.
+      app  = "express-app",
+    },
+  ]
+
+  // Instead of sending raw lines directly to Loki,
+  // first pass them through the processing pipeline.
+  forward_to = [loki.process.pino_pipeline.receiver]
+}
+
+// Process each log line before sending it to Loki.
+loki.process "pino_pipeline" {
+  stage.json {
+    expressions = {
+      // Read top-level JSON fields from the Pino log line.
+      level = "",
+      time  = "",
+    }
+  }
+
+  stage.timestamp {
+    // Use the "time" field from the log as the Loki timestamp.
+    source = "time"
+
+    // Pino time is in Unix milliseconds.
+    format = "UnixMs"
+  }
+
+  stage.template {
+    // Take the extracted "level" value and transform it.
+    source = "level"
+
+    // Convert Pino numeric levels into readable text levels.
+    template = "{{ if eq .Value \"10\" }}trace{{ else if eq .Value \"20\" }}debug{{ else if eq .Value \"30\" }}info{{ else if eq .Value \"40\" }}warn{{ else if eq .Value \"50\" }}error{{ else if eq .Value \"60\" }}fatal{{ else }}unknown{{ end }}"
+  }
+
+  stage.labels {
+    values = {
+      // Turn extracted values into Loki indexed labels.
+      level  = "",
+    }
+  }
+
+  // Drop the default label `filename`.
+  stage.label_drop {
+    values = ["filename"]
+  }
+
+  // After processing, send the result to Loki.
+  forward_to = [loki.write.local_loki.receiver]
+}
+
+// Send the final processed logs to Loki.
+loki.write "local_loki" {
+  endpoint {
+    // Loki push API endpoint.
+    url = "http://localhost:3100/loki/api/v1/push"
+  }
+}
+
+// Alloy's own internal logging.
+logging {
+  level  = "debug"
+  format = "logfmt"
+}
