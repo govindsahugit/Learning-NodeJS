@@ -1,5 +1,5 @@
 import express from "express";
-import fs from "fs/promises";
+import fs from "fs";
 import promClient from "prom-client";
 
 const app = express();
@@ -17,30 +17,16 @@ const httpRequestInFlight = new promClient.Gauge({
   labelNames: ["method", "path"],
 });
 
-const httpReqDuration = new promClient.Histogram({
-  name: "http_request_duration_seconds",
-  help: "HTTP request duration in seconds",
-  buckets: [0.1, 0.2, 1, 2, 4, 6],
-  labelNames: ["method", "path", "status"],
-});
-
-promClient.collectDefaultMetrics();
-
 app.use((req, res, next) => {
   const { method, path } = req;
 
   if (req.path === "/metrics") return next();
 
-  const endTimer = httpReqDuration.startTimer({ method, path });
-
   httpRequestInFlight.labels(method, path).inc();
 
   res.on("finish", () => {
     httpRequestTotal.labels(method, path, res.statusCode).inc();
-
     httpRequestInFlight.labels(method, path).dec();
-
-    endTimer({ status: res.statusCode });
   });
 
   req.on("aborted", () => {
@@ -50,24 +36,12 @@ app.use((req, res, next) => {
   next();
 });
 
+promClient.collectDefaultMetrics();
+
 app.get("/metrics", async (req, res) => {
   const metrics = await promClient.register.metrics();
   res.set("Content-Type", promClient.register.contentType);
   res.end(metrics);
-});
-
-app.get("/fail", (req, res) => {
-  res.status(400).json({
-    error: "This endpoint always fails",
-  });
-});
-
-app.post("/alter", (req, res) => {
-  console.log(req.headers);
-  console.log(req.body);
-  res.json({
-    message: "This endpoint accepts POST requests",
-  });
 });
 
 app.get("/", (req, res) => {
@@ -77,7 +51,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/unstable", async (req, res) => {
-  const delays = [500, 2000, 4000];
+  const delays = [5000, 6000, 8000];
   const delay = delays[Math.floor(Math.random() * delays.length)];
 
   const shouldFail = Math.random() < 0.4;
@@ -118,11 +92,11 @@ app.get("/user-cpu", async (req, res) => {
   res.json({ ok: true });
 });
 
-app.get("/system-cpu", async (req, res) => {
-  for (let i = 0; i < 100; i++) {
+app.get("/system-cpu", (req, res) => {
+  for (let i = 0; i < 10; i++) {
     // use this command to generate the bigfile
     // dd if=/dev/urandom of=bigfile.dat bs=1M count=500
-    await fs.readFile("./bigfile.dat");
+    fs.readFileSync("./bigfile.dat");
   }
 
   res.json({

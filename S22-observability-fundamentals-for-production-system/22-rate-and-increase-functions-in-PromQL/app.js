@@ -56,20 +56,6 @@ app.get("/metrics", async (req, res) => {
   res.end(metrics);
 });
 
-app.get("/fail", (req, res) => {
-  res.status(400).json({
-    error: "This endpoint always fails",
-  });
-});
-
-app.post("/alter", (req, res) => {
-  console.log(req.headers);
-  console.log(req.body);
-  res.json({
-    message: "This endpoint accepts POST requests",
-  });
-});
-
 app.get("/", (req, res) => {
   res.json({
     message: "Welcome to the demo Express app 👋",
@@ -119,7 +105,7 @@ app.get("/user-cpu", async (req, res) => {
 });
 
 app.get("/system-cpu", async (req, res) => {
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 10; i++) {
     // use this command to generate the bigfile
     // dd if=/dev/urandom of=bigfile.dat bs=1M count=500
     await fs.readFile("./bigfile.dat");
