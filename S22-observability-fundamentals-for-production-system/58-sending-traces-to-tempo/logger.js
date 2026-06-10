@@ -6,7 +6,8 @@ const logger = pino({
       {
         target: "pino/file",
         options: {
-          destination: "./logs/app.log",
+          destination:
+            "F:\\Web Development\\BACKEND DEVELOPMENT\\Backend Projects\\Obervability-App\\logs\\app.log",
           mkdir: true,
         },
       },
