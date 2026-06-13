@@ -24,7 +24,7 @@ promClient.collectDefaultMetrics();
 export const requestMetricsMiddleware = (req, res, next) => {
   const { method, path } = req;
 
-  if (req.path === "/metrics") return next();
+  if (req.path === "/metrics" || req.method === "OPTIONS") return next();
 
   const endTimer = httpReqDuration.startTimer({ method, path });
 
@@ -39,7 +39,7 @@ export const requestMetricsMiddleware = (req, res, next) => {
   req.on("aborted", () => {
     httpRequestInFlight.labels(method, path).dec();
 
-    console.log(`[metrics:aborted] ${method} ${path}`);
+    req.log.info(`[metrics:aborted] ${method} ${path}`);
   });
 
   next();
@@ -51,7 +51,7 @@ export const metricsHandler = async (req, res) => {
     res.set("Content-Type", promClient.register.contentType);
     res.end(metrics);
   } catch (error) {
-    console.log("[metrics:export:error]", error?.stack || error);
+    req.log.error("[metrics:export:error]", error?.stack || error);
     return res.status(500).json({ error: "Failed to export metrics" });
   }
 };

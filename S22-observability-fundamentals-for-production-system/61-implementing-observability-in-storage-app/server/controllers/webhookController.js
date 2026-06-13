@@ -27,38 +27,100 @@ export const PLANS = {
 
 export const handleRazorpayWebhook = async (req, res) => {
   const signature = req.headers["x-razorpay-signature"];
-  console.log(signature);
+  const event = req.body.event;
+
+  req.log.info({ event }, "Razorpay webhook received");
+
   const isSignatureValid = Razorpay.validateWebhookSignature(
     JSON.stringify(req.body),
     signature,
     process.env.RAZORPAY_WEBHOOK_SECRET,
   );
-  console.log(isSignatureValid);
-  if (isSignatureValid) {
-    if (req.body.event === "subscription.activated") {
+
+  if (!isSignatureValid) {
+    req.log.error({ event }, "Razorpay webhook signature verification failed");
+    return res.end("OK");
+  }
+
+  req.log.info({ event }, "Razorpay webhook signature verified");
+
+  if (event === "subscription.activated") {
+    try {
       const rzpSubscription = req.body.payload.subscription.entity;
       const planId = rzpSubscription.plan_id;
+      const rzpSubscriptionId = rzpSubscription.id;
+
+      req.log.info(
+        { rzpSubscriptionId, planId },
+        "Processing subscription activation",
+      );
+
       const subscription = await Subscription.findOne({
-        razorpaySubscriptionId: rzpSubscription.id,
+        razorpaySubscriptionId: rzpSubscriptionId,
       });
+
+      if (!subscription) {
+        req.log.warn(
+          { rzpSubscriptionId },
+          "Subscription not found in database",
+        );
+        return res.end("OK");
+      }
+
       subscription.status = rzpSubscription.status;
       await subscription.save();
-      const storageQuotaBytes = PLANS[planId].storageQuotaBytes;
+
+      const storageQuotaBytes = PLANS[planId]?.storageQuotaBytes;
+
+      if (!storageQuotaBytes) {
+        req.log.warn({ planId }, "Unknown plan ID in subscription webhook");
+        return res.end("OK");
+      }
+
       const user = await User.findById(subscription.userId);
+
+      if (!user) {
+        req.log.error(
+          { userId: subscription.userId, rzpSubscriptionId },
+          "User not found for subscription activation",
+        );
+        return res.end("OK");
+      }
+
       user.maxStorageInBytes = storageQuotaBytes;
       await user.save();
+
+      req.log.info(
+        { userId: subscription.userId, planId, storageQuotaBytes },
+        "Subscription activated and storage quota updated",
+      );
+    } catch (error) {
+      req.log.error(
+        { error: error?.message, event },
+        "Error processing subscription activation webhook",
+      );
     }
   } else {
-    console.log("Signature not verified");
+    req.log.info({ event }, "Razorpay webhook event not processed");
   }
+
   res.end("OK");
 };
 
 export const handleGitHubWebhook = async (req, res, next) => {
   try {
     const GitHubSignature = req.headers["x-hub-signature-256"];
+    const repositoryName = req.body?.repository?.name;
 
-    if (!GitHubSignature) return res.end("OK");
+    req.log.info({ repositoryName }, "GitHub webhook received");
+
+    if (!GitHubSignature) {
+      req.log.warn(
+        { repositoryName },
+        "GitHub webhook missing signature header",
+      );
+      return res.end("OK");
+    }
 
     const signature =
       "sha256=" +
@@ -67,43 +129,65 @@ export const handleGitHubWebhook = async (req, res, next) => {
         .update(JSON.stringify(req.body))
         .digest("hex");
 
-    if (GitHubSignature !== signature) return res.end("OK");
+    if (GitHubSignature !== signature) {
+      req.log.error(
+        { repositoryName },
+        "GitHub webhook signature verification failed",
+      );
+      return res.end("OK");
+    }
 
-    res.end("OK");
-
-    const repositoryName = req.body.repository.name;
+    req.log.info({ repositoryName }, "GitHub webhook signature verified");
 
     const bashFile =
       repositoryName === "StorageApp-Frontend"
         ? "deploy-frontend-ec2.sh"
         : "deploy-backend.sh";
 
-    console.log(repositoryName);
-    console.log(bashFile);
+    req.log.info({ repositoryName, bashFile }, "Spawning deployment script");
+
+    res.end("OK");
 
     const bashChildProcess = spawn("bash", [`/home/ubuntu/${bashFile}`]);
 
     bashChildProcess.stdout.on("data", (data) => {
+      req.log.info(
+        { repositoryName, output: data.toString().slice(0, 100) },
+        "Deployment script stdout",
+      );
       process.stdout.write(data);
     });
 
     bashChildProcess.stderr.on("data", (data) => {
+      req.log.error(
+        { repositoryName, output: data.toString().slice(0, 100) },
+        "Deployment script stderr",
+      );
       process.stderr.write(data);
     });
 
     bashChildProcess.on("close", (code) => {
       if (code === 0) {
-        console.log("Script executed successfully!");
+        req.log.info(
+          { repositoryName, code },
+          "Deployment script executed successfully",
+        );
       } else {
-        console.log("Script execution failed!");
+        req.log.error(
+          { repositoryName, code },
+          "Deployment script execution failed",
+        );
       }
     });
 
     bashChildProcess.on("error", (err) => {
-      console.log("Error in spawning the process!");
-      console.log(err);
+      req.log.error(
+        { repositoryName, error: err?.message },
+        "Error spawning deployment process",
+      );
     });
   } catch (error) {
+    req.log.error({ error: error?.message }, "Failed to handle GitHub webhook");
     next(error);
   }
 };

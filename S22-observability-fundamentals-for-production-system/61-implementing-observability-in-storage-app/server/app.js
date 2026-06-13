@@ -17,8 +17,9 @@ import helmet from "helmet";
 import {
   metricsHandler,
   requestMetricsMiddleware,
-} from "./utils/metricsUtils.js";
-import { pinoHttpMiddleware } from "./utils/pinoUtils.js";
+} from "./observability/metrics.js";
+
+import { pinoHttpMiddleware } from "./observability/logger.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -73,7 +74,7 @@ app.use("/public", publicRoutes);
 app.use("/", CheckAuth, subscriptionRoutes);
 
 app.use((err, req, res, next) => {
-  console.log(err);
+  req.log.error({ err }, "Unhandled application error");
   return res.status(err.status || 500).json({
     error: "Something went wrong",
   });

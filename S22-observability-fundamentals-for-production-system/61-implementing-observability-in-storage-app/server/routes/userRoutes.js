@@ -6,7 +6,7 @@ import {
   getUserDetails,
   loginUser,
   loginWithGoogle,
-  logouAll,
+  logoutAll,
   logoutUser,
   sendOtp,
   verifyOtp,
@@ -22,7 +22,7 @@ router.post("/user/login", authLimiter, throttle(1), loginUser);
 
 router.get("/user/data", CheckAuth, getUserDetails);
 
-router.post("/user/logout", logoutUser);
+router.post("/user/logout", CheckAuth, logoutUser);
 
 router.post(
   "/user/forgot/password",
@@ -31,7 +31,7 @@ router.post(
   createNewPassword
 );
 
-router.post("/user/logout/all", CheckAuth, logouAll);
+router.post("/user/logout/all", CheckAuth, logoutAll);
 
 router.post("/user/send-otp", authLimiter, throttle(1), sendOtp);
 

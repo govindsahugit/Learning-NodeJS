@@ -26,9 +26,16 @@ export const initiateUpload = async (req, res, next) => {
     });
 
   const { filename, filesize, filetype } = data;
+  req.log.info(
+    { userId: req.user._id, parentDirId, filename, filesize, filetype },
+    "Initiating file upload",
+  );
 
   if (filesize > 50 * 1024 * 1024 * 1024) {
-    console.log("File is too large!");
+    req.log.warn(
+      { userId: req.user._id, filename, filesize },
+      "File is too large",
+    );
     return req.destroy();
   }
 
@@ -46,7 +53,15 @@ export const initiateUpload = async (req, res, next) => {
     const availableSizeInBytes = maxStorageInBytes - usedStorageInBytes;
 
     if (filesize > availableSizeInBytes) {
-      console.log("You do not have enough storage for this file!");
+      req.log.warn(
+        {
+          userId: req.user._id,
+          filename,
+          filesize,
+          availableSizeInBytes,
+        },
+        "Insufficient storage for file upload",
+      );
       return req.destroy();
     }
 
@@ -76,16 +91,24 @@ export const initiateUpload = async (req, res, next) => {
 export const uploadComplete = async (req, res, next) => {
   const { id } = req.params;
   try {
+    req.log.info({ userId: req.user._id, fileId: id }, "Completing file upload");
+
     const file = await File.findOne({ _id: id, isUploading: true }).select(
       "size extention parentDirId",
     );
 
-    if (!file)
+    if (!file) {
+      req.log.warn({ userId: req.user._id, fileId: id }, "Upload completion file not found");
       return res.status(404).json({ error: "File not found in our records" });
+    }
 
     const { response } = await getObjectData({ Key: `${id}${file.extention}` });
 
     if (response.ContentLength !== file.size) {
+      req.log.warn(
+        { userId: req.user._id, fileId: id, expectedSize: file.size, actualSize: response.ContentLength },
+        "Uploaded file size mismatch",
+      );
       await file.deleteOne();
       return res.status(400).json({ error: "File size does not match." });
     }
@@ -94,6 +117,8 @@ export const uploadComplete = async (req, res, next) => {
     await file.save();
 
     await updateDirectoriesSize(file.parentDirId, file.size);
+
+    req.log.info({ userId: req.user._id, fileId: id }, "File upload completed successfully");
 
     return res.status(200).json({
       success: true,
@@ -107,15 +132,24 @@ export const uploadComplete = async (req, res, next) => {
 export const readFile = async (req, res, next) => {
   const { id } = req.params;
   try {
+    req.log.info(
+      { userId: req.user._id, fileId: id, action: req.query.action || "preview" },
+      "Reading file request",
+    );
+
     const { file } = await fileValidate(res, id);
 
-    if (file.userId.toString() !== req.user._id.toString())
+    if (file.userId.toString() !== req.user._id.toString()) {
+      req.log.warn({ userId: req.user._id, fileId: id }, "Unauthorized file read attempt");
       return res.status(401).json({ error: "Unauthorized access!" });
+    }
 
     const { url } = await readfile(req, id, file);
 
+    req.log.info({ userId: req.user._id, fileId: id }, "File read redirect generated");
     return res.redirect(url);
   } catch (err) {
+    req.log.error({ err, fileId: id }, "Failed to read file");
     next(err);
   }
 };
@@ -123,17 +157,24 @@ export const readFile = async (req, res, next) => {
 export const deleteFile = async (req, res, next) => {
   const { id } = req.params;
   try {
+    req.log.info({ userId: req.user._id, fileId: id }, "Deleting file request");
+
     const { file } = await fileValidate(res, id);
 
-    if (file.userId.toString() !== req.user._id.toString())
+    if (file.userId.toString() !== req.user._id.toString()) {
+      req.log.warn({ userId: req.user._id, fileId: id }, "Unauthorized file delete attempt");
       return res.status(404).json({ error: "Unauthorized operation!" });
+    }
 
     const response = await removeFile(res, id, file);
 
     await updateDirectoriesSize(file.parentDirId, -file.size);
 
+    req.log.info({ userId: req.user._id, fileId: id }, "File deleted successfully");
+
     return response;
   } catch (error) {
+    req.log.error({ error, fileId: id }, "Failed to delete file");
     next(error);
   }
 };
@@ -141,15 +182,22 @@ export const deleteFile = async (req, res, next) => {
 export const renameFile = async (req, res, next) => {
   const { id } = req.params;
   try {
+    req.log.info({ userId: req.user._id, fileId: id }, "Renaming file request");
+
     const { file } = await fileValidate(res, id);
 
-    if (file.userId.toString() !== req.user._id.toString())
-      return res.status(401).json({ error: "Unauthorized Opreation!" });
+    if (file.userId.toString() !== req.user._id.toString()) {
+      req.log.warn({ userId: req.user._id, fileId: id }, "Unauthorized file rename attempt");
+      return res.status(401).json({ error: "Unauthorized Operation!" });
+    }
 
     const response = await renamefile(req, res, id);
+
+    req.log.info({ userId: req.user._id, fileId: id }, "File renamed successfully");
     return response;
   } catch (error) {
     error.status = 500;
+    req.log.error({ error, fileId: id }, "Failed to rename file");
     next(error);
   }
 };

@@ -4,10 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "node --watch --env-file=.env app.js",
+    "dev": "node --watch --env-file=.env --import=./observability/tracingLoader.js --import ./observability/tracing.js app.js",
+    "start": "node --env-file=.env --import=./observability/tracingLoader.js --import ./observability/tracing.js app.js",
     "setup": "node --env-file=.env config/setup.js",
-    "build": "npm i",
-    "start": "node app.js"
+    "build": "npm ci"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,10 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.969.0",
     "@aws-sdk/s3-request-presigner": "^3.969.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.77.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.219.0",
+    "@opentelemetry/sdk-node": "^0.219.0",
+    "@opentelemetry/sdk-trace-node": "^2.8.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
